@@ -314,23 +314,23 @@
           <div class="card">
             <div class="card-head"><h2>Learning</h2></div>
             <div class="set-row">
-              <div><label for="setLevel"><strong>English level</strong></label><span>The coach explains grammar in simpler words for lower levels.</span></div>
-              <select class="select" id="setLevel"><option value="beginner">Beginner</option><option value="intermediate" selected>Intermediate</option><option value="advanced">Advanced</option></select>
+              <div><label for="setLevel"><strong>English level</strong></label><span id="levelHelp">The coach explains grammar in simpler words for lower levels.</span></div>
+              <select class="select" aria-describedby="levelHelp" id="setLevel"><option value="beginner">Beginner</option><option value="intermediate" selected>Intermediate</option><option value="advanced">Advanced</option></select>
             </div>
             <div class="set-row">
-              <div><label for="setGoal"><strong>Daily goal</strong></label><span>Practice sessions per day.</span></div>
-              <div class="range-wrap"><input type="range" id="setGoal" min="1" max="5" value="3"><output id="setGoalOut" for="setGoal">3 sessions</output></div>
+              <div><label for="setGoal"><strong>Daily goal</strong></label><span id="goalHelp">Practice sessions per day.</span></div>
+              <div class="range-wrap"><input type="range" aria-describedby="goalHelp" id="setGoal" min="1" max="5" value="3"><output id="setGoalOut" for="setGoal">3 sessions</output></div>
             </div>
             <div class="set-row">
-              <div><strong>Show grammar explanations</strong><span>Explain why each correction is needed.</span></div>
-              <label class="switch"><input type="checkbox" id="setExplain" checked aria-label="Show grammar explanations"><i></i></label>
+              <div><strong>Show grammar explanations</strong><span id="explainHelp">Explain why each correction is needed.</span></div>
+              <label class="switch"><input type="checkbox" aria-describedby="explainHelp" id="setExplain" checked aria-label="Show grammar explanations"><i></i></label>
             </div>
           </div>
           <div class="card">
             <div class="card-head"><h2>Message Studio</h2></div>
             <div class="set-row">
-              <div><label for="setPlatform"><strong>Default platform</strong></label><span>Used when you open Message Studio.</span></div>
-              <select class="select" id="setPlatform"><option value="whatsapp">WhatsApp</option><option value="linkedin">LinkedIn</option></select>
+              <div><label for="setPlatform"><strong>Default platform</strong></label><span id="platformHelp">Used when you open Message Studio.</span></div>
+              <select class="select" aria-describedby="platformHelp" id="setPlatform"><option value="whatsapp">WhatsApp</option><option value="linkedin">LinkedIn</option></select>
             </div>
             <div class="set-row">
               <div><label for="setTone"><strong>Default tone</strong></label></div>
@@ -341,8 +341,8 @@
           <div class="card">
             <div class="card-head"><h2>Your data</h2></div>
             <div class="set-row">
-              <div><strong>Reset progress</strong><span>Deletes your practice sessions, scores and streak. Saved phrases and settings stay. Browser storage is not encrypted, so don't store private information here.</span></div>
-              <button class="btn btn-secondary" type="button" id="resetProgress">Reset progress</button>
+              <div><strong>Reset progress</strong><span id="resetHelp">Deletes your practice sessions, scores and streak. Saved phrases and settings stay. Browser storage is not encrypted, so don't store private information here.</span></div>
+              <button class="btn btn-secondary" type="button" aria-describedby="resetHelp" id="resetProgress">Reset progress</button>
             </div>
           </div>
         </form>
