@@ -141,7 +141,7 @@ export function renderDraft() {
   area.addEventListener('input', () => { st.draft = area.value; count(); $('#englishResult').hidden = true; }); // old check results are out of date
   // Check my English: the same simple rules as the coach (no full stop needed after a signature)
   $('#checkDraft').onclick = () => {
-    const items = checkEnglish(area.value, { checkEnding: false }).map(f =>
+    const items = checkEnglish(area.value, { checkEnding: false, level: state.englishLevel }).map(f =>
       `<li class="tip">${icon('alert', 15)}<span>"${escapeHTML(f.wrong)}" → "${escapeHTML(f.right)}". ${escapeHTML(f.note)}</span></li>`);
     if (/\[[^\]]+\]/.test(area.value)) items.push(`<li class="tip">${icon('alert', 15)}<span>Replace the text in [brackets] before you send.</span></li>`);
     const result = $('#englishResult');

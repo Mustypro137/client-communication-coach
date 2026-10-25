@@ -185,7 +185,7 @@ function analyzeReply(text) {
   const shouting = /!{2,}/.test(text) || /\b[A-Z]{4,}\b/.test(text);
 
   // English corrections (shared rules in english.js)
-  const english = checkEnglish(text);
+  const english = checkEnglish(text, { level: state.englishLevel });
 
   // Professionalism notes
   const prof = [];

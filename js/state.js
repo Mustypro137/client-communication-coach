@@ -18,5 +18,6 @@ export const state = {
   studio: { platform: 'whatsapp', draft: '', original: '', reasons: [] },
   pb: { query: '', cat: 'all' },
   saved: new Set(),
-  showExplanations: true  // Settings: show grammar explanations in the coach
+  showExplanations: true,       // Settings: show grammar explanations in the coach
+  englishLevel: 'intermediate'  // Settings: how simply grammar is explained (english.js)
 };

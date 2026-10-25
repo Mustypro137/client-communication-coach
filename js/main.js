@@ -56,6 +56,7 @@ $('#settingsForm').addEventListener('submit', (e) => {
   e.preventDefault();
   state.dailyGoal = Number($('#setGoal').value);
   state.showExplanations = $('#setExplain').checked;
+  state.englishLevel = $('#setLevel').value;
   setPlatform($('#setPlatform').value);
   $('#toneSel').value = $('#setTone').value;
   try {
@@ -81,7 +82,11 @@ function loadSettings() {
     state.showExplanations = s.explain; $('#setExplain').checked = s.explain;
     $('#setPlatform').value = s.platform; setPlatform(s.platform);
     $('#setTone').value = s.tone; $('#toneSel').value = s.tone;
-    $('#setLevel').value = s.level;
+    // Older saves used the visible text ("Intermediate"), so compare in lower case
+    const level = String(s.level || '').toLowerCase();
+    if (['beginner', 'intermediate', 'advanced'].includes(level)) {
+      state.englishLevel = level; $('#setLevel').value = level;
+    }
   } catch (err) { /* use defaults */ }
 }
 
