@@ -61,6 +61,14 @@ export function toast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
+// Tell screen-reader users about a change, without moving their focus.
+// Cleared first, so the same message twice is still read out.
+export function announce(msg) {
+  const a = $('#announcer');
+  if (!a) return;
+  a.textContent = '';
+  setTimeout(() => { a.textContent = msg; }, 50);
+}
 export async function copyText(text, fallbackEl) {
   try {
     await navigator.clipboard.writeText(text);

@@ -26,3 +26,4 @@ A web app that helps freelance developers practise client conversations, improve
 - Never put API keys in front-end code. A real AI must go through a small server.
 - Messages are never sent automatically to WhatsApp or LinkedIn. The user copies them.
 - Test at desktop width and at 375px phone width after every change.
+- Accessibility: text at least 4.5:1 contrast (in light and dark mode), buttons at least 44px tall on phones, a `<label>` for every form field. For screen-reader updates use `announce()` from utils.js, not `aria-live` on big areas that are re-drawn.

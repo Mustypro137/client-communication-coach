@@ -8,17 +8,18 @@
   --line-strong: #D6D5CD;
   --ink: #243B53;
   --ink-2: #51667B;
-  --ink-3: #7F8D9B;
+  --ink-3: #5F6E80;        /* darker than before so small grey text passes 4.5:1 */
   --accent: #6487C4;
-  --accent-strong: #4A6DAE;
+  --accent-strong: #4467A8;
   --accent-soft: #EAF0F9;
   --on-accent: #FFFFFF;
+  --on-avatar: #243B53;     /* initials on the pastel avatar circles; the same navy in dark mode, because the pastels stay light */
   --coach-bg: #F1F5EE;
   --coach-line: #DBE5D3;
   --coach-ink: #46663C;
-  --good: #3D7A55;
+  --good: #38724F;
   --good-soft: #E7F2EA;
-  --warn: #A86A1C;
+  --warn: #935C16;
   --warn-soft: #FBF1E2;
   --shadow: 0 1px 2px rgba(36, 59, 83, .05), 0 6px 20px rgba(36, 59, 83, .05);
   --overlay: rgba(36, 59, 83, .32);
@@ -77,6 +78,11 @@ button { cursor: pointer; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 /* The hidden attribute must always win, even over rules like .screen { display: grid } */
 [hidden] { display: none !important; }
+/* "Skip to content": hidden above the page until a keyboard user presses Tab */
+.skip-link { position: absolute; left: var(--s-4); top: -60px; z-index: 50; padding: var(--s-2) var(--s-4); border-radius: var(--r-sm); background: var(--ink); color: var(--bg) !important; font-weight: 600; text-decoration: none; }
+.skip-link:focus { top: var(--s-4); }
+/* Headings and <main> get focus from code (after navigation), not from the user, so no ring */
+.screen h1:focus, main:focus { outline: none; }
 
 /* ---------- App shell ---------- */
 .app { display: grid; grid-template-columns: 252px minmax(0, 1fr); min-height: 100%; }
@@ -261,7 +267,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   width: 40px; height: 40px; border-radius: 50%; flex: none;
   display: grid; place-items: center;
   font-family: var(--font-display); font-weight: 700; font-size: 14px;
-  color: var(--ink); background: var(--avatar-bg, var(--accent-soft));
+  color: var(--on-avatar); background: var(--avatar-bg, var(--accent-soft));
 }
 
 .next-ex { background: var(--ink); color: var(--bg); border-color: var(--ink); display: grid; gap: var(--s-3); }
@@ -286,7 +292,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 }
 .scenario-tab .client-avatar { width: 30px; height: 30px; font-size: 12px; }
 .scenario-tab strong { display: block; font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.scenario-tab span { display: block; font-size: 12px; color: var(--ink-3); }
+.scenario-tab span:not(.client-avatar) { display: block; font-size: 12px; color: var(--ink-3); }
 .scenario-tab:hover { border-color: var(--line-strong); }
 .scenario-tab[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 
@@ -415,7 +421,6 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* Session results */
 .results-sub { margin-top: var(--s-5); }
-#resultsTitle:focus { outline: none; } /* focused by code after "End session", not by the user */
 .ended-note .link-btn { font-size: inherit; }
 .bars { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--s-3); align-items: end; height: 190px; padding-top: var(--s-4); border-bottom: 1px solid var(--line); background-image: linear-gradient(var(--line) 1px, transparent 1px); background-size: 100% 25%; }
 .bar { display: grid; justify-items: center; gap: 4px; height: 100%; align-content: end; }
@@ -500,6 +505,12 @@ tr:last-child td { border-bottom: 0; }
   .switch { justify-self: start; }
   .card { padding: var(--s-4); }
   .topbar-crumb { display: none; } /* "Coach /" makes the top bar too wide on phones */
+  /* Touch targets: at least 44px for fingers */
+  .btn, .btn-sm, .cat, .segmented button, .input, .select, input[type="range"] { min-height: 44px; }
+  .icon-btn, .convo-controls .btn { min-width: 44px; min-height: 44px; }
+  .link-btn { padding-block: 6px; } /* a bigger tap area without moving the text */
+  /* 16px text in form fields: iPhones zoom in on anything smaller */
+  .input, .select, .textarea { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
@@ -511,8 +522,6 @@ tr:last-child td { border-bottom: 0; }
 .lp { height: auto; }
 .lp a:not(.btn) { color: var(--accent-strong); } /* buttons keep their own colours */
 a.btn { text-decoration: none; }
-.skip-link { position: absolute; left: var(--s-4); top: -60px; z-index: 50; padding: var(--s-2) var(--s-4); border-radius: var(--r-sm); background: var(--ink); color: var(--bg) !important; font-weight: 600; }
-.skip-link:focus { top: var(--s-4); }
 
 .lp-nav, .lp main, .lp-footer { width: min(1120px, 100% - 32px); margin-inline: auto; }
 .lp-nav { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding-block: var(--s-4); }

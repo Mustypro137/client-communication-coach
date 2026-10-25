@@ -1,4 +1,4 @@
-import { $, icon, escapeHTML, difficultyHTML, toast, copyText } from './utils.js';
+import { $, icon, escapeHTML, difficultyHTML, toast, copyText, announce } from './utils.js';
 import { SCENARIOS } from './data.js';
 import { state } from './state.js';
 import { renderGoal } from './dashboard.js';
@@ -129,6 +129,7 @@ function sendReply() {
   });
   renderGoal();
   renderCoach();
+  announce(`Coach feedback ready. Score ${state.feedback.score}, ${scoreLabel(state.feedback.score)}.`);
 
   // Simulated client: next scripted answer after a short "typing" pause
   state.clientTyping = true;
@@ -142,6 +143,7 @@ function sendReply() {
     if (!state.ended) {
       state.messages.push({ from: 'client', text: next, time: nextTime() });
       setComposerEnabled(true);
+      announce(`${s.client.split(' ')[0]} replied: ${next}`);
     }
     renderThread();
   }, 1300);

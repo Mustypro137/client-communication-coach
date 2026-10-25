@@ -16,7 +16,7 @@ import { loadSaved, renderPhrasebook } from './phrasebook.js';
    ========================================================= */
 const TITLES = { dashboard: 'Dashboard', practice: 'Practice with a Client', library: 'Scenario library', studio: 'Message Studio', phrasebook: 'Phrasebook', progress: 'Progress', preferences: 'Settings', results: 'Session results' };
 
-function showScreen(name) {
+function showScreen(name, { moveFocus = true } = {}) {
   state.screen = name;
   document.querySelectorAll('[data-screen]').forEach(s => { s.hidden = s.dataset.screen !== name; });
   const navName = name === 'results' ? 'practice' : name; // results belong to Practice in the menu
@@ -30,7 +30,14 @@ function showScreen(name) {
   if (name === 'phrasebook') renderPhrasebook();
   if (name === 'progress') renderProgress();
   if (name === 'library') renderLibrary();
-  if (name === 'results') { renderResults(); $('#resultsTitle').focus(); } // the End button is now disabled, so move keyboard focus here
+  if (name === 'results') renderResults();
+  // Move keyboard and screen-reader focus to the new screen's heading,
+  // so the user starts reading at the top of the new screen
+  if (moveFocus) {
+    const h1 = document.querySelector(`[data-screen="${name}"] h1`);
+    h1.tabIndex = -1;
+    h1.focus({ preventScroll: true });
+  }
 }
 
 document.addEventListener('click', (e) => {
@@ -47,11 +54,25 @@ $('#endBtn').addEventListener('click', () => {
 });
 
 // Mobile drawer
-function openMenu() { $('#sidebar').classList.add('open'); $('#scrim').hidden = false; $('#menuBtn').setAttribute('aria-expanded', 'true'); }
-function closeMenu() { $('#sidebar').classList.remove('open'); $('#scrim').hidden = true; $('#menuBtn').setAttribute('aria-expanded', 'false'); }
+// On phones the closed menu is off-screen. "inert" stops Tab from reaching its hidden buttons.
+const phone = window.matchMedia('(max-width: 880px)'); // the same width as the CSS that hides the sidebar
+function syncSidebar() { $('#sidebar').inert = phone.matches && !$('#sidebar').classList.contains('open'); }
+function openMenu() {
+  $('#sidebar').classList.add('open'); $('#scrim').hidden = false; $('#menuBtn').setAttribute('aria-expanded', 'true');
+  syncSidebar();
+  $('#sidebar .nav-item').focus();
+}
+function closeMenu() {
+  $('#sidebar').classList.remove('open'); $('#scrim').hidden = true; $('#menuBtn').setAttribute('aria-expanded', 'false');
+  syncSidebar();
+}
 $('#menuBtn').addEventListener('click', openMenu);
-$('#scrim').addEventListener('click', closeMenu);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+$('#scrim').addEventListener('click', () => { closeMenu(); $('#menuBtn').focus(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('#sidebar').classList.contains('open')) { closeMenu(); $('#menuBtn').focus(); }
+});
+phone.addEventListener('change', syncSidebar); // e.g. rotating a tablet
+syncSidebar();
 
 // Copy buttons on any screen (dashboard and phrasebook)
 document.addEventListener('click', (e) => {
@@ -111,4 +132,4 @@ renderPicker();
 startSession();
 renderDraft();
 generateDraft();      // show a sample draft so the studio isn't empty
-showScreen('dashboard');
+showScreen('dashboard', { moveFocus: false }); // don't move focus when the page first loads
