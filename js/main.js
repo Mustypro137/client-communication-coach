@@ -54,9 +54,16 @@ $('#endBtn').addEventListener('click', () => {
 });
 
 // Mobile drawer
-// On phones the closed menu is off-screen. "inert" stops Tab from reaching its hidden buttons.
+// "inert" makes part of the page unreachable with Tab and invisible to screen readers.
+// On phones: menu closed → the off-screen menu is inert.
+//            menu open   → everything else is inert, so focus stays inside the menu (a "focus trap").
 const phone = window.matchMedia('(max-width: 880px)'); // the same width as the CSS that hides the sidebar
-function syncSidebar() { $('#sidebar').inert = phone.matches && !$('#sidebar').classList.contains('open'); }
+function syncSidebar() {
+  const open = $('#sidebar').classList.contains('open');
+  $('#sidebar').inert = phone.matches && !open;
+  $('.main').inert = phone.matches && open;
+  $('.skip-link').inert = phone.matches && open;
+}
 function openMenu() {
   $('#sidebar').classList.add('open'); $('#scrim').hidden = false; $('#menuBtn').setAttribute('aria-expanded', 'true');
   syncSidebar();
