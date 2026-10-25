@@ -5,20 +5,22 @@ import { $, paintIcons, copyText, toast } from './utils.js';
 import { state } from './state.js';
 import { renderProgress, resetProgress } from './progress.js';
 import { renderGoal, renderDashboard } from './dashboard.js';
-import { renderPicker, selectScenario, startSession, renderCoach } from './practice.js';
+import { renderPicker, selectScenario, startSession, renderCoach, endSession } from './practice.js';
+import { renderResults } from './results.js';
 import { generateDraft, renderDraft, setPlatform } from './studio.js';
 import { loadSaved, renderPhrasebook } from './phrasebook.js';
 
 /* =========================================================
    4. NAVIGATION
    ========================================================= */
-const TITLES = { dashboard: 'Dashboard', practice: 'Practice with a Client', studio: 'Message Studio', phrasebook: 'Phrasebook', progress: 'Progress', preferences: 'Settings' };
+const TITLES = { dashboard: 'Dashboard', practice: 'Practice with a Client', studio: 'Message Studio', phrasebook: 'Phrasebook', progress: 'Progress', preferences: 'Settings', results: 'Session results' };
 
 function showScreen(name) {
   state.screen = name;
   document.querySelectorAll('[data-screen]').forEach(s => { s.hidden = s.dataset.screen !== name; });
+  const navName = name === 'results' ? 'practice' : name; // results belong to Practice in the menu
   document.querySelectorAll('.nav-item').forEach(b => {
-    if (b.dataset.nav === name) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    if (b.dataset.nav === navName) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
   });
   $('#topTitle').textContent = TITLES[name];
   closeMenu();
@@ -26,6 +28,7 @@ function showScreen(name) {
   if (name === 'dashboard') renderDashboard();
   if (name === 'phrasebook') renderPhrasebook();
   if (name === 'progress') renderProgress();
+  if (name === 'results') { renderResults(); $('#resultsTitle').focus(); } // the End button is now disabled, so move keyboard focus here
 }
 
 document.addEventListener('click', (e) => {
@@ -33,6 +36,12 @@ document.addEventListener('click', (e) => {
   if (nav) { showScreen(nav.dataset.nav); return; }
   const start = e.target.closest('[data-start]');
   if (start) { selectScenario(start.dataset.start); showScreen('practice'); }
+});
+
+// End session: show the results, unless no reply was sent (the coach panel explains that)
+$('#endBtn').addEventListener('click', () => {
+  endSession();
+  if (state.feedback) showScreen('results');
 });
 
 // Mobile drawer

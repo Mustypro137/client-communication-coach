@@ -165,6 +165,32 @@
         </div>
       </section>
 
+      <!-- ===================== SESSION RESULTS (opens after "End session") ===================== -->
+      <section class="screen" data-screen="results" hidden>
+        <div class="screen-head">
+          <h1 id="resultsTitle" tabindex="-1">Session results</h1>
+          <p id="resultsIntro"></p>
+        </div>
+        <div class="stats" id="resultStats"></div>
+        <div class="progress-grid">
+          <div class="card">
+            <div class="card-head"><h2>What to work on next</h2><span class="mono muted">top 3</span></div>
+            <ul class="fb-list" id="resultFixes"></ul>
+            <div class="card-head results-sub"><h2>What you did well</h2></div>
+            <ul class="fb-list" id="resultGood"></ul>
+          </div>
+          <div class="card">
+            <div class="card-head"><h2>Skills in this session</h2><span class="mono muted">score / 100</span></div>
+            <div class="skills" id="resultSkills"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Suggested improved reply</h2><button class="btn btn-ghost btn-sm" id="resultCopy"><span data-icon="copy"></span>Copy</button></div>
+          <div class="model-reply" id="resultModel"></div>
+        </div>
+        <div class="hero-actions" id="resultActions"></div>
+      </section>
+
       <!-- ===================== SCREEN 3: MESSAGE STUDIO ===================== -->
       <section class="screen" data-screen="studio" hidden>
         <div class="screen-head">

@@ -77,7 +77,9 @@ function renderThread() {
   if (state.clientTyping) {
     html += `<div class="msg msg-client"><div class="client-avatar" style="--avatar-bg:${s.avatarBg}">${s.initials}</div><div class="bubble"><span class="typing" aria-label="${s.client} is typing"><i></i><i></i><i></i></span></div></div>`;
   }
-  if (state.ended) html += `<div class="ended-note">Session ended. Review your feedback, or press Restart to try again.</div>`;
+  if (state.ended) html += state.feedback
+    ? `<div class="ended-note">Session ended. <button class="link-btn" data-nav="results">See your results</button> or press Restart to try again.</div>`
+    : `<div class="ended-note">Session ended. Press Restart to try again.</div>`;
   const thread = $('#thread');
   thread.innerHTML = html;
   thread.scrollTop = thread.scrollHeight;
@@ -94,12 +96,13 @@ $('#replyInput').addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendReply(); }
 });
 $('#restartBtn').addEventListener('click', () => { startSession(); toast('Scenario restarted'); });
-$('#endBtn').addEventListener('click', () => {
+// "End session": main.js calls this, then opens the results screen
+export function endSession() {
   state.ended = true;
   setComposerEnabled(false);
   renderThread();
   renderCoach();
-});
+}
 
 function sendReply() {
   const text = $('#replyInput').value.trim();
@@ -245,7 +248,7 @@ function analyzeReply(text) {
   return { score, good, english, prof, forgotten, model: s.modelReply, skills };
 }
 
-function scoreLabel(n) { return n >= 80 ? 'Strong reply' : n >= 60 ? 'Good start' : 'Needs work'; }
+export function scoreLabel(n) { return n >= 80 ? 'Strong reply' : n >= 60 ? 'Good start' : 'Needs work'; }
 
 export function renderCoach() {
   const s = scenario();

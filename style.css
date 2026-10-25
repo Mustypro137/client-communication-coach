@@ -400,6 +400,10 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* ---------- Progress ---------- */
 .progress-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--s-5); align-items: start; }
+/* Session results */
+.results-sub { margin-top: var(--s-5); }
+#resultsTitle:focus { outline: none; } /* focused by code after "End session", not by the user */
+.ended-note .link-btn { font-size: inherit; }
 .bars { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--s-3); align-items: end; height: 190px; padding-top: var(--s-4); border-bottom: 1px solid var(--line); background-image: linear-gradient(var(--line) 1px, transparent 1px); background-size: 100% 25%; }
 .bar { display: grid; justify-items: center; gap: 4px; height: 100%; align-content: end; }
 .bar span { width: 100%; max-width: 34px; border-radius: 6px 6px 0 0; background: var(--accent); }
