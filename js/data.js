@@ -112,6 +112,88 @@ export const SCENARIOS = [
     ],
     modelReply: "Thank you, Ibrahim, I'm glad you like the dashboard!\n\nA mobile app is a new project, so it isn't included in our current agreement. Building it properly takes more than a few days.\n\nTo help you, I can suggest two options:\n1. A mobile-friendly version of the dashboard for Friday's demo, as a small extra.\n2. A full mobile app later, with its own quote and timeline.\n\nWhat do your team need to do on mobile first? I'll send a short quote today.",
     lastScore: null, lastDate: 'New'
+  },
+  {
+    id: 'deadline',
+    title: 'An unrealistic deadline',
+    client: 'Kofi Asante',
+    initials: 'KA',
+    role: 'Founder, Asante Events',
+    avatarBg: '#F4E3CC',
+    level: 2,
+    objective: 'Be honest about what is possible. Offer a smaller first version or a realistic date.',
+    opening: [
+      "Hi! We're launching our event booking website this Saturday.",
+      'Can you build the whole thing, with online ticket payments, by Friday?'
+    ],
+    checks: [
+      { label: 'What must be ready on launch day', words: ['must', 'priority', 'essential', 'most important', 'launch day', 'first'] },
+      { label: 'Whether the date can move', words: ['move', 'flexible', 'later', 'postpone', 'date'] },
+      { label: 'If the content is ready', words: ['content', 'text', 'photos', 'logo', 'ready'] },
+      { label: 'That a rush job may cost more', words: ['rush', 'extra', 'cost', 'fee', 'price'] }
+    ],
+    followUps: [
+      'On Saturday people mainly need to see the event details and reserve a ticket. Payment could come later, I suppose.',
+      'The text and photos are ready. The date is fixed because we already printed flyers.',
+      'Okay, a simple version on Friday and payments next week works for me. Please send the details.'
+    ],
+    modelReply: "Hi Kofi, congratulations on the launch!\n\nI want to be honest: a full booking website with online payments can't be built and tested properly by Friday. Rushing payments is risky for you and your customers.\n\nWhat I can do:\n1. By Friday: a one-page site with the event details and a ticket reservation form.\n2. Next week: online payments, fully tested.\n\nIs your text and photos ready? If you send them today, I can start this afternoon. Because of the short timeline, there is a small rush fee, which I'll include in the quote.",
+    lastScore: null, lastDate: 'New'
+  },
+  {
+    id: 'complaint',
+    title: 'A client complains: the form is broken',
+    client: 'Amina Bello',
+    initials: 'AB',
+    role: 'Owner, Bello Fashion House',
+    avatarBg: '#EADFF0',
+    level: 2,
+    objective: 'Stay calm, apologise, find out the details, and give a clear time for the fix.',
+    opening: [
+      'The contact form on my website is not working!',
+      'Three customers told me they sent messages and I received nothing. This is costing me sales.'
+    ],
+    checks: [
+      { label: 'Which page or device has the problem', words: ['page', 'phone', 'browser', 'device', 'computer', 'mobile'] },
+      { label: 'When the problem started', words: ['when', 'since', 'started', 'first notice'] },
+      { label: 'For a screenshot or error message', words: ['screenshot', 'error', 'screen'] },
+      { label: 'When you will fix it', words: ['today', 'hour', 'tonight', 'tomorrow', 'by '] }
+    ],
+    followUps: [
+      'It happens on the contact page. One customer used her phone, I am not sure about the others.',
+      'I think it started on Monday. I can send you a screenshot of what they see.',
+      'Thank you for handling this quickly. Please tell me when it works again.'
+    ],
+    modelReply: "Hi Amina, I'm very sorry about this. I understand that missed messages mean missed sales, so I'll treat it as urgent.\n\nTo find the problem quickly, could you tell me:\n1. Did it happen on a phone, a computer, or both?\n2. When did you first notice it?\n3. Could you send a screenshot of what customers see after they press Send?\n\nI'm checking the form now and will update you within two hours. In the meantime, I can add your WhatsApp number to the contact page so customers can still reach you.",
+    lastScore: null, lastDate: 'New'
+  },
+  {
+    id: 'followup',
+    title: 'No reply for six days',
+    client: 'Marc Dubois',
+    initials: 'MD',
+    role: 'Director, Dubois Consulting',
+    avatarBg: '#DCE7F5',
+    level: 1,
+    objective: 'Remind him politely, without pressure, and make it easy for him to answer.',
+    // This scenario starts with YOUR earlier message, then a note. You write the follow-up.
+    opening: [
+      { from: 'note', text: 'Monday' },
+      { from: 'you', time: '14:20', text: "Hi Marc, thank you for the call today. As promised, here is the proposal for your new website: three pages, a contact form and a blog, ready in four weeks.\n\nLet me know if you have any questions!" },
+      { from: 'note', text: 'Today · 6 days later, no reply' }
+    ],
+    checks: [
+      { label: 'Mention the proposal you sent', words: ['proposal', 'quote', 'sent', 'last message'] },
+      { label: 'Offer to answer questions or adjust it', words: ['question', 'help', 'adjust', 'change', 'clarify'] },
+      { label: 'Suggest an easy next step', words: ['call', 'meet', 'chat', 'this week', 'thursday', 'friday', 'monday'] }
+    ],
+    followUps: [
+      'Hi, sorry for the late reply! It was a busy week. I read the proposal and I have one question about the timeline.',
+      'Could we start in two weeks instead of next week?',
+      "Great, let's have a short call on Thursday to confirm everything."
+    ],
+    modelReply: "Hi Marc, I hope your week is going well.\n\nI'm following up on the proposal I sent on Monday for your new website. Have you had a chance to look at it?\n\nI'm happy to answer any questions or adjust the plan if something doesn't fit. If it's easier, we could have a quick 10-minute call this week.\n\nIf now isn't the right time, no problem. I'm here when you're ready.",
+    lastScore: null, lastDate: 'New'
   }
 ];
 

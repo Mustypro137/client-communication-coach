@@ -40,7 +40,12 @@ export function startSession() {
   state.clientTyping = false;
   state.countedThisSession = false;
   state.clockMinutes = 9 * 60 + 38;
-  s.opening.forEach(text => state.messages.push({ from: 'client', text, time: nextTime() }));
+  // An opening line is usually client text. It can also be an object:
+  // { from: 'you', text } for a message you "sent" earlier, or { from: 'note', text } for a grey divider.
+  s.opening.forEach(line => {
+    if (typeof line === 'string') state.messages.push({ from: 'client', text: line, time: nextTime() });
+    else state.messages.push({ ...line, time: line.time || nextTime(), opening: true });
+  });
 
   $('#cAvatar').textContent = s.initials;
   $('#cAvatar').style.setProperty('--avatar-bg', s.avatarBg);
@@ -57,8 +62,10 @@ export function startSession() {
 
 function renderThread() {
   const s = scenario();
-  let html = '<div class="day-sep mono">Today</div>';
+  // Show "Today" at the top, unless the scenario starts with its own note
+  let html = state.messages[0] && state.messages[0].from === 'note' ? '' : '<div class="day-sep mono">Today</div>';
   html += state.messages.map(m => {
+    if (m.from === 'note') return `<div class="day-sep mono">${escapeHTML(m.text)}</div>`;
     if (m.from === 'client') {
       return `<div class="msg msg-client"><div class="client-avatar" style="--avatar-bg:${s.avatarBg}">${s.initials}</div><div><div class="bubble">${escapeHTML(m.text)}</div><div class="msg-time">${m.time}</div></div></div>`;
     }
@@ -131,7 +138,7 @@ function sendReply() {
 /* Try again: remove your last reply (and the client's answer) and put your text back */
 function tryAgain() {
   let lastYou = -1;
-  state.messages.forEach((m, i) => { if (m.from === 'you') lastYou = i; });
+  state.messages.forEach((m, i) => { if (m.from === 'you' && !m.opening) lastYou = i; }); // skip pre-written messages
   if (lastYou === -1) return;
   const text = state.messages[lastYou].text;
   state.messages = state.messages.slice(0, lastYou);
@@ -179,6 +186,10 @@ function analyzeReply(text) {
   const givesPriceEarly = s.id === 'bakery' && /(\$\s?\d|\d+\s?(k|000|dollars|cfa|fcfa))/i.test(text) && questions < 2;
   const agreesDiscount = s.id === 'discount' && /\b(yes|ok|okay|sure)\b.*\b800\b|\b800\b.*\b(fine|okay|ok|works)\b/i.test(text);
   const freeWork = s.id === 'scope' && /\b(no problem|sure|yes|ok)\b/i.test(text) && !/\b(cost|price|quote|extra|fee)\b/i.test(text);
+  const rushYes = s.id === 'deadline' && /\b(yes|sure|ok|okay|no problem)\b/i.test(text) && !/\b(but|if|only|first version|smaller|simple|realistic|rush|extra)\b/i.test(text);
+  const noApology = s.id === 'complaint' && !/\b(sorry|apologi[sz]e)\b/i.test(text);
+  const blames = s.id === 'complaint' && /\b(your fault|you must have|you didn't|you did not|you broke)\b/i.test(text);
+  const pushy = s.id === 'followup' && /(why (haven't|have not|didn't|did not) you|still waiting|\basap\b|\burgent)/i.test(text);
 
   // English corrections
   const english = [];
@@ -207,10 +218,14 @@ function analyzeReply(text) {
   if (givesPriceEarly) prof.push({ type: 'tip', text: 'You gave a price before you understood the project. Ask questions first, then quote.' });
   if (agreesDiscount) prof.push({ type: 'tip', text: 'You accepted a 33% discount quickly. Offer a smaller scope instead, so your price stays fair.' });
   if (freeWork) prof.push({ type: 'tip', text: 'You agreed to new work without mentioning the cost. Extra work needs its own quote.' });
+  if (rushYes) prof.push({ type: 'tip', text: 'You said yes to a very short deadline with no conditions. Offer a smaller first version or a realistic date.' });
+  if (noApology) prof.push({ type: 'tip', text: 'Start by saying sorry. The client is losing money, so show that you understand.' });
+  if (blames) prof.push({ type: 'tip', text: 'Avoid blaming the client. Focus on finding and fixing the problem.' });
+  if (pushy) prof.push({ type: 'tip', text: 'This sounds like pressure. Remind the client kindly and make it easy to reply.' });
   prof.push(hasNextStep ? { type: 'good', text: 'You suggested a clear next step.' } : { type: 'tip', text: 'End with a next step: a call, a quote, or a date.' });
 
   // Questions forgotten — checked across ALL your replies in this session
-  const allYou = state.messages.filter(m => m.from === 'you').map(m => m.text.toLowerCase()).join(' ');
+  const allYou = state.messages.filter(m => m.from === 'you' && !m.opening).map(m => m.text.toLowerCase()).join(' ');
   const forgotten = s.checks.filter(c => !c.words.some(w => allYou.includes(w))).map(c => c.label);
   const asked = s.checks.length - forgotten.length;
 
@@ -234,7 +249,7 @@ function analyzeReply(text) {
   score += hasNextStep ? 10 : 0;
   score += english.length === 0 ? 10 : -4 * english.length;
   score += words >= 25 && words <= 150 ? 6 : 0;
-  score -= (givesPriceEarly || agreesDiscount || freeWork) ? 12 : 0;
+  score -= (givesPriceEarly || agreesDiscount || freeWork || rushYes || noApology || blames || pushy) ? 12 : 0;
   score = Math.max(20, Math.min(97, score));
 
   return { score, good, english, prof, forgotten, model: s.modelReply };
