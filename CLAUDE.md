@@ -4,9 +4,10 @@ A web app that helps freelance developers practise client conversations, improve
 
 ## Tech
 - Plain HTML, CSS and JavaScript. No framework, no build step.
-- `index.html` – page structure (8 screens, one `<section data-screen="...">` each; "results" opens after End session)
+- `index.html` – the landing page for new visitors (no app logic; it only loads the icons from `utils.js`)
+- `app.html` – the app's page structure (8 screens, one `<section data-screen="...">` each; "results" opens after End session)
 - `style.css` – all styles. Colours and fonts are CSS variables in `:root` (light and dark theme).
-- `js/` – the logic, as ES modules. `index.html` loads only `js/main.js`, which imports the rest:
+- `js/` – the logic, as ES modules. `app.html` loads only `js/main.js`, which imports the rest:
   - `utils.js` – icons, `$`, `escapeHTML`, toast, copy to clipboard
   - `data.js` – practice scenarios and phrases
   - `state.js` – the one shared `state` object
@@ -14,7 +15,7 @@ A web app that helps freelance developers practise client conversations, improve
   - `english.js` – grammar rules shared by the coach and Message Studio
   - `dashboard.js`, `practice.js`, `results.js`, `library.js`, `studio.js`, `phrasebook.js` – one file per screen
   - `main.js` – navigation, settings and app start-up
-- Modules don't load from `file://`. Run a local server (e.g. `python -m http.server`) and open http://localhost:8000.
+- Modules don't load from `file://`. Run a local server (e.g. `python -m http.server`) and open http://localhost:8000 (landing page) or http://localhost:8000/app.html (the app).
 
 ## Rules
 - Keep the "Clarity" design: ivory background #F7F7F4, navy text #243B53, blue accent #6487C4, sage green only for the coach panel.

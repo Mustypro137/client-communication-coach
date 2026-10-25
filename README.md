@@ -2,7 +2,7 @@
 
 A web app that helps freelance developers practise client conversations, improve their professional English, and draft replies for WhatsApp and LinkedIn.
 
-**Live demo:** https://mustypro137.github.io/client-communication-coach/
+**Live demo:** https://mustypro137.github.io/client-communication-coach/ (landing page) · [open the app directly](https://mustypro137.github.io/client-communication-coach/app.html)
 
 > **Prototype:** the "AI" is simulated. Client replies are scripted, and the coach's feedback comes from simple, transparent rules (greeting, thanks, questions asked, common grammar mistakes). It does not understand every possible reply.
 
@@ -21,12 +21,13 @@ Messages are **never sent automatically**. You copy the reply and send it yourse
 
 ## Run it locally
 
-The app uses ES modules, so it must be opened through a local server (double-clicking `index.html` will not work).
+The app uses ES modules, so it must be opened through a local server (double-clicking the HTML files will not work).
 
 ```bash
 # Option 1: Python
 python -m http.server
-# then open http://localhost:8000
+# then open http://localhost:8000 (landing page)
+# or http://localhost:8000/app.html (the app)
 
 # Option 2: VS Code
 # install the "Live Server" extension and click "Go Live"
@@ -37,7 +38,8 @@ No install or build step is needed.
 ## Project structure
 
 ```
-index.html        page structure (8 screens)
+index.html        landing page for new visitors
+app.html          the app: page structure (8 screens)
 style.css         all styles; colours and spacing are CSS variables
 js/
   main.js         entry point: navigation, settings, start-up

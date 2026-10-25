@@ -1,5 +1,5 @@
 /* Entry point: navigation, progress, settings, and app start-up.
-   index.html loads only this file; it imports the rest. */
+   app.html loads only this file; it imports the rest. */
 
 import { $, paintIcons, copyText, toast } from './utils.js';
 import { state } from './state.js';

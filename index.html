@@ -3,353 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Client Communication Coach</title>
-  <!-- Tab icon: the same chat bubble as the sidebar logo, in the theme's navy (#243B53) -->
+  <title>Client Communication Coach – practise client conversations in English</title>
+  <meta name="description" content="A free practice tool for freelance developers: chat with simulated clients, get feedback on your English and tone, and draft WhatsApp and LinkedIn replies.">
+  <!-- Tab icon: the same chat bubble as the app logo, in the theme's navy (#243B53) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23243B53'/%3E%3Cpath d='M4 5h11a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H9l-4 3v-3H4z' transform='translate(1.5 0.5)' fill='none' stroke='%23F7F7F4' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div class="app">
-  <!-- ===================== SIDEBAR ===================== -->
-  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
-    <div class="brand">
-      <div class="brand-mark" aria-hidden="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h11a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H9l-4 3v-3H4z"/><path d="M8 9.5h6M8 12.5h4"/></svg>
-      </div>
-      <div>
-        <div class="brand-name">Client Communication Coach</div>
-        <div class="brand-sub">For freelance developers</div>
+<body class="lp">
+<!-- LANDING PAGE: introduces the app to new visitors. The app itself is app.html. -->
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="lp-nav">
+  <a class="lp-brand" href="index.html">
+    <span class="brand-mark" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h11a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H9l-4 3v-3H4z"/><path d="M8 9.5h6M8 12.5h4"/></svg>
+    </span>
+    Client Communication Coach
+  </a>
+  <a class="btn btn-secondary btn-sm" href="app.html">Open the app</a>
+</header>
+
+<main id="main">
+  <!-- 1. Hero: what it is and the one main action -->
+  <section class="lp-hero">
+    <div class="lp-hero-text">
+      <span class="eyebrow">For freelance developers</span>
+      <h1>Practise client conversations before the real ones.</h1>
+      <p>Chat with simulated clients, get feedback on your English and your tone, and draft professional WhatsApp and LinkedIn replies. Free, and it runs in your browser.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="app.html">Open the app <span data-icon="arrow"></span></a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
     </div>
 
-    <nav class="nav">
-      <div class="eyebrow nav-label">Learn</div>
-      <button class="nav-item" data-nav="dashboard"><span data-icon="home"></span>Dashboard</button>
-      <button class="nav-item" data-nav="practice"><span data-icon="chat"></span>Practice with a Client</button>
-      <button class="nav-item" data-nav="library"><span data-icon="grid"></span>Scenario library</button>
-      <button class="nav-item" data-nav="studio"><span data-icon="pen"></span>Message Studio</button>
-      <button class="nav-item" data-nav="phrasebook"><span data-icon="book"></span>Phrasebook</button>
-      <div class="eyebrow nav-label" style="margin-top: 12px;">You</div>
-      <button class="nav-item" data-nav="progress"><span data-icon="chart"></span>Progress</button>
-      <button class="nav-item" data-nav="preferences"><span data-icon="gear"></span>Settings</button>
-    </nav>
-
-    <div class="sidebar-foot">
-      <span class="eyebrow">Prototype</span>
-      <p>All replies and feedback use sample data. Nothing is sent to WhatsApp or LinkedIn.</p>
-    </div>
-  </aside>
-  <div class="scrim" id="scrim" hidden></div>
-
-  <!-- ===================== MAIN ===================== -->
-  <div class="main">
-    <header class="topbar">
-      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false"><span data-icon="menu"></span></button>
-      <span class="topbar-crumb">Coach</span>
-      <span class="topbar-crumb" aria-hidden="true">/</span>
-      <span class="topbar-title" id="topTitle">Dashboard</span>
-      <div class="topbar-right">
-        <span class="chip streak"><span data-icon="flame"></span><span id="streakText">Start a streak</span></span>
-        <span class="chip" id="goalChip">1 of 3 today</span>
-        <div class="avatar" aria-label="Your profile">YO</div>
+    <!-- A static example of a practice session, built with the app's own styles.
+         The score and tips are what the real coach gives this reply (checked in the app). -->
+    <figure class="card lp-demo">
+      <figcaption class="eyebrow">Example practice session</figcaption>
+      <div class="msg msg-client">
+        <div class="client-avatar" style="--avatar-bg:#F4E3CC" aria-hidden="true">AM</div>
+        <div><div class="bubble">Hello! I need a website for my bakery. How much does it cost?</div></div>
       </div>
-    </header>
+      <div class="msg msg-you">
+        <div><div class="bubble">Hi Adjoa, thank you for contacting me! Which pages do you need, and when should it be ready?</div></div>
+      </div>
+      <div class="lp-coach">
+        <div class="lp-coach-head"><span class="coach-badge"><span data-icon="coach"></span>Your coach</span><strong>75</strong></div>
+        <ul class="fb-list">
+          <li class="good"><span data-icon="check"></span><span>You covered 2 of 5 key topics.</span></li>
+          <li class="ask"><span data-icon="question"></span><span>You forgot to ask about her budget.</span></li>
+        </ul>
+      </div>
+    </figure>
+  </section>
 
-    <main class="content">
+  <!-- 2. Features -->
+  <section class="lp-section" aria-labelledby="featuresTitle">
+    <h2 id="featuresTitle">Three ways to get better at client work</h2>
+    <div class="lp-grid">
+      <article class="card lp-feature">
+        <span class="icon-circle"><span data-icon="chat"></span></span>
+        <h3>Practise with a client</h3>
+        <p>Seven realistic situations: a new inquiry, a discount request, a late payment, a complaint and more. Reply as you would in a real chat.</p>
+      </article>
+      <article class="card lp-feature">
+        <span class="icon-circle"><span data-icon="pen"></span></span>
+        <h3>Draft your replies</h3>
+        <p>Paste a real client message, choose a goal and a tone, and get an editable draft. Check your English before you send it yourself.</p>
+      </article>
+      <article class="card lp-feature">
+        <span class="icon-circle"><span data-icon="chart"></span></span>
+        <h3>Track your progress</h3>
+        <p>See your scores, your daily streak and your skills grow: tone, good questions, clear English and tricky moments.</p>
+      </article>
+    </div>
+  </section>
 
-      <!-- ===================== SCREEN 1: DASHBOARD ===================== -->
-      <section class="screen" data-screen="dashboard">
-        <div class="hero">
-          <div class="card hero-main">
-            <span class="eyebrow" id="heroDay">Today's practice</span>
-            <h1>Become confident in every client conversation.</h1>
-            <p>Practise real client situations, get clear feedback on your English and tone, then write messages you can send with confidence.</p>
-            <div class="hero-actions">
-              <button class="btn btn-primary" data-nav="practice"><span data-icon="chat"></span>Start practicing</button>
-              <button class="btn btn-secondary" data-nav="studio"><span data-icon="pen"></span>Draft a message</button>
-            </div>
-          </div>
+  <!-- 3. How it works -->
+  <section class="lp-section" id="how" aria-labelledby="howTitle">
+    <h2 id="howTitle">How it works</h2>
+    <ol class="lp-steps">
+      <li><span class="lp-step-num">1</span><div><h3>Pick a scenario</h3><p>Start with a beginner one, like a new website inquiry.</p></div></li>
+      <li><span class="lp-step-num">2</span><div><h3>Reply to the client</h3><p>Write your answer in English, the way you would on WhatsApp.</p></div></li>
+      <li><span class="lp-step-num">3</span><div><h3>Read your feedback and try again</h3><p>Your coach shows what went well, what to fix, and an improved reply.</p></div></li>
+    </ol>
+  </section>
 
-          <div class="card goal">
-            <div class="card-head" style="margin: 0;"><h2>Daily goal</h2><span class="tag" id="goalTag">In progress</span></div>
-            <div class="goal-row">
-              <div class="ring" aria-hidden="true">
-                <svg width="84" height="84" viewBox="0 0 84 84">
-                  <circle cx="42" cy="42" r="36" fill="none" stroke="var(--line)" stroke-width="8"/>
-                  <circle id="goalArc" cx="42" cy="42" r="36" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="150.8"/>
-                </svg>
-                <div class="ring-label"><span id="goalNum">1/3</span><small>sessions</small></div>
-              </div>
-              <ul class="goal-list" id="goalList"></ul>
-            </div>
-          </div>
-        </div>
+  <!-- 4. Honest note: what this app is and isn't -->
+  <section class="lp-section" aria-labelledby="honestTitle">
+    <div class="card lp-honest">
+      <h2 id="honestTitle">Good to know</h2>
+      <ul class="fb-list">
+        <li class="good"><span data-icon="info"></span><span><strong>Template-based, not real AI.</strong> The clients are scripted and the feedback comes from simple, transparent rules. It doesn't understand every possible reply.</span></li>
+        <li class="good"><span data-icon="info"></span><span><strong>Your data stays in your browser.</strong> No account, no server, no tracking. Browser storage is not encrypted, so don't paste anything secret.</span></li>
+        <li class="good"><span data-icon="info"></span><span><strong>Nothing is sent to your clients.</strong> You copy a reply and send it yourself.</span></li>
+      </ul>
+    </div>
+  </section>
 
-        <div class="stats">
-          <div class="card stat"><span class="eyebrow">Sessions this week</span><div class="stat-value" id="statSessions">0</div><p class="stat-note">In the last 7 days</p></div>
-          <div class="card stat"><span class="eyebrow">Average reply score</span><div class="stat-value" id="statAvg">–</div><p class="stat-note" id="statAvgNote">Send a practice reply to get a score</p></div>
-          <div class="card stat"><span class="eyebrow">Phrases saved</span><div class="stat-value" id="statSaved">0</div><p class="stat-note">Ready to reuse in real messages</p></div>
-        </div>
+  <!-- 5. Final call to action -->
+  <section class="lp-section lp-final">
+    <h2>Ready for your next client message?</h2>
+    <a class="btn btn-primary" href="app.html">Open the app <span data-icon="arrow"></span></a>
+  </section>
+</main>
 
-        <div class="dash-grid">
-          <div class="dash-col">
-            <div class="card">
-              <div class="card-head"><h2>Recent scenarios</h2><button class="link-btn" data-nav="library">See all</button></div>
-              <ul class="scenario-list" id="recentList"></ul>
-            </div>
-          </div>
-          <div class="dash-col">
-            <div class="card next-ex">
-              <span class="eyebrow">Next recommended exercise</span>
-              <h3 id="nextTitle"></h3>
-              <p id="nextText"></p>
-              <button class="btn btn-sm" id="nextBtn" data-start="bakery">Start exercise <span data-icon="arrow"></span></button>
-            </div>
-            <div class="card">
-              <div class="card-head"><h2>Useful phrases</h2><button class="link-btn" data-nav="phrasebook">Phrasebook</button></div>
-              <ul class="phrase-mini" id="dashPhrases"></ul>
-            </div>
-          </div>
-        </div>
-      </section>
+<footer class="lp-footer">
+  <span>Client Communication Coach · a portfolio project</span>
+  <a href="https://github.com/Mustypro137/client-communication-coach">View the code on GitHub</a>
+</footer>
 
-      <!-- ===================== SCREEN 2: PRACTICE ===================== -->
-      <section class="screen" data-screen="practice" hidden>
-        <div class="screen-head">
-          <h1>Practice with a Client</h1>
-          <p>Reply as you would in a real chat. Your coach checks your English, your tone, and the questions you asked.</p>
-        </div>
-
-        <div>
-          <div class="eyebrow" style="margin-bottom: 8px;">Choose a scenario</div>
-          <div class="scenario-picker" id="scenarioPicker" role="group" aria-label="Scenarios"></div>
-        </div>
-
-        <div class="workspace">
-          <!-- Conversation column -->
-          <div class="card convo">
-            <div class="convo-head">
-              <div class="convo-client">
-                <div class="client-avatar" id="cAvatar"></div>
-                <div class="who"><strong id="cName"></strong><span id="cRole"></span></div>
-                <div class="convo-controls">
-                  <button class="btn btn-ghost btn-sm" id="restartBtn" title="Restart scenario"><span data-icon="restart"></span><span>Restart</span></button>
-                  <button class="btn btn-secondary btn-sm" id="endBtn" title="End session"><span data-icon="stop"></span><span>End session</span></button>
-                </div>
-              </div>
-              <div class="objective">
-                <div>
-                  <h2 id="sTitle"></h2>
-                  <p><strong>Objective:</strong> <span id="sObjective"></span></p>
-                </div>
-                <span class="difficulty" id="sDifficulty"></span>
-              </div>
-            </div>
-
-            <div class="thread" id="thread" aria-live="polite"></div>
-
-            <form class="composer" id="composer">
-              <label class="sr-only" for="replyInput">Your reply</label>
-              <textarea class="textarea" id="replyInput" placeholder="Write your reply to the client…"></textarea>
-              <div class="composer-foot">
-                <small>Press Ctrl + Enter to send · Practice only, nothing is sent</small>
-                <button class="btn btn-accent" type="submit" id="sendBtn"><span data-icon="send"></span>Send reply</button>
-              </div>
-            </form>
-          </div>
-
-          <!-- Coaching column -->
-          <aside class="card coach" id="coach" aria-live="polite"></aside>
-        </div>
-      </section>
-
-      <!-- ===================== SCENARIO LIBRARY ===================== -->
-      <section class="screen" data-screen="library" hidden>
-        <div class="screen-head">
-          <h1>Scenario library</h1>
-          <p>Every practice conversation in one place. Pick one by level, or find the ones you haven't tried yet.</p>
-        </div>
-        <div class="lib-filters">
-          <div class="cats" id="libLevel" role="group" aria-label="Filter by level"></div>
-          <div class="cats" id="libStatus" role="group" aria-label="Filter by status"></div>
-        </div>
-        <p class="muted" id="libCount" aria-live="polite"></p>
-        <div class="library" id="libGrid"></div>
-      </section>
-
-      <!-- ===================== SESSION RESULTS (opens after "End session") ===================== -->
-      <section class="screen" data-screen="results" hidden>
-        <div class="screen-head">
-          <h1 id="resultsTitle" tabindex="-1">Session results</h1>
-          <p id="resultsIntro"></p>
-        </div>
-        <div class="stats" id="resultStats"></div>
-        <div class="progress-grid">
-          <div class="card">
-            <div class="card-head"><h2>What to work on next</h2><span class="mono muted">top 3</span></div>
-            <ul class="fb-list" id="resultFixes"></ul>
-            <div class="card-head results-sub"><h2>What you did well</h2></div>
-            <ul class="fb-list" id="resultGood"></ul>
-          </div>
-          <div class="card">
-            <div class="card-head"><h2>Skills in this session</h2><span class="mono muted">score / 100</span></div>
-            <div class="skills" id="resultSkills"></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><h2>Suggested improved reply</h2><button class="btn btn-ghost btn-sm" id="resultCopy"><span data-icon="copy"></span>Copy</button></div>
-          <div class="model-reply" id="resultModel"></div>
-        </div>
-        <div class="hero-actions" id="resultActions"></div>
-      </section>
-
-      <!-- ===================== SCREEN 3: MESSAGE STUDIO ===================== -->
-      <section class="screen" data-screen="studio" hidden>
-        <div class="screen-head">
-          <h1>Message Studio</h1>
-          <p>Paste a real message from a client. Choose what you want to achieve, and get a clear reply you can edit.</p>
-        </div>
-
-        <div class="notice"><span data-icon="info"></span><p><strong>Messages are never sent automatically.</strong> You copy the reply and send it yourself in WhatsApp or LinkedIn.</p></div>
-
-        <div class="studio">
-          <form class="card studio-form" id="studioForm">
-            <div class="field">
-              <span class="label">Platform</span>
-              <div class="segmented" role="group" aria-label="Platform" id="platformSeg">
-                <button type="button" data-platform="whatsapp" aria-pressed="true"><span data-icon="phone"></span>WhatsApp</button>
-                <button type="button" data-platform="linkedin" aria-pressed="false"><span data-icon="briefcase"></span>LinkedIn</button>
-              </div>
-            </div>
-            <div class="field">
-              <label for="clientMsg">Client message</label>
-              <textarea class="textarea" id="clientMsg">Hello, I'm Grace. I run a small hair salon and I saw your portfolio. I need a simple website where my clients can see my prices and book appointments. Are you available this month, and how much do you charge?</textarea>
-            </div>
-            <div class="row-2">
-              <div class="field">
-                <label for="goalSel">What do you want to do?</label>
-                <select class="select" id="goalSel">
-                  <option value="inquiry">Reply to a new inquiry</option>
-                  <option value="pricing">Talk about pricing</option>
-                  <option value="details">Ask for more details</option>
-                  <option value="followup">Follow up politely</option>
-                  <option value="decline">Decline the project</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="toneSel">Tone</label>
-                <select class="select" id="toneSel">
-                  <option value="professional">Professional and friendly</option>
-                  <option value="concise">Short and direct</option>
-                  <option value="friendly">Warm and conversational</option>
-                </select>
-              </div>
-            </div>
-            <button class="btn btn-primary" type="submit"><span data-icon="spark"></span>Generate draft</button>
-          </form>
-
-          <div class="card draft-card" id="draftCard"></div>
-        </div>
-      </section>
-
-      <!-- ===================== SCREEN 4: PHRASEBOOK ===================== -->
-      <section class="screen" data-screen="phrasebook" hidden>
-        <div class="screen-head">
-          <h1>Phrasebook</h1>
-          <p>Short, professional phrases for real client situations, each with a plain-English explanation.</p>
-        </div>
-        <div class="pb-tools">
-          <div class="search">
-            <span data-icon="search"></span>
-            <label class="sr-only" for="pbSearch">Search phrases</label>
-            <input class="input" id="pbSearch" type="search" placeholder="Search, e.g. deposit, deadline, follow up">
-          </div>
-          <div class="cats" id="cats" role="group" aria-label="Categories"></div>
-        </div>
-        <div class="phrases" id="phraseGrid"></div>
-      </section>
-
-      <!-- ===================== SCREEN 5: PROGRESS ===================== -->
-      <section class="screen" data-screen="progress" hidden>
-        <div class="screen-head">
-          <h1>Progress</h1>
-          <p>Your practice in this browser. A session is saved each time you send a practice reply.</p>
-        </div>
-        <div class="progress-grid">
-          <div class="card">
-            <div class="card-head"><h2>Practice minutes this week</h2><span class="mono muted" id="weekTotal">0 min total</span></div>
-            <div class="bars" id="bars"></div>
-            <div class="bar-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
-          </div>
-          <div class="card">
-            <div class="card-head"><h2>Skills</h2><span class="mono muted">score / 100</span></div>
-            <div class="skills" id="skills"></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><h2>Session history</h2></div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Date</th><th>Scenario</th><th>Level</th><th>Replies</th><th>Score</th></tr></thead>
-              <tbody id="history"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===================== SCREEN 6: SETTINGS ===================== -->
-      <section class="screen" data-screen="preferences" hidden>
-        <div class="screen-head">
-          <h1>Settings</h1>
-          <p>Adjust how the coach works for you. Settings are saved in this browser only.</p>
-        </div>
-        <form class="settings" id="settingsForm">
-          <div class="card">
-            <div class="card-head"><h2>Learning</h2></div>
-            <div class="set-row">
-              <div><strong>English level</strong><span>The coach explains grammar in simpler words for lower levels.</span></div>
-              <select class="select" id="setLevel"><option value="beginner">Beginner</option><option value="intermediate" selected>Intermediate</option><option value="advanced">Advanced</option></select>
-            </div>
-            <div class="set-row">
-              <div><strong>Daily goal</strong><span>Practice sessions per day.</span></div>
-              <div class="range-wrap"><input type="range" id="setGoal" min="1" max="5" value="3"><output id="setGoalOut" for="setGoal">3 sessions</output></div>
-            </div>
-            <div class="set-row">
-              <div><strong>Show grammar explanations</strong><span>Explain why each correction is needed.</span></div>
-              <label class="switch"><input type="checkbox" id="setExplain" checked aria-label="Show grammar explanations"><i></i></label>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-head"><h2>Message Studio</h2></div>
-            <div class="set-row">
-              <div><strong>Default platform</strong><span>Used when you open Message Studio.</span></div>
-              <select class="select" id="setPlatform"><option value="whatsapp">WhatsApp</option><option value="linkedin">LinkedIn</option></select>
-            </div>
-            <div class="set-row">
-              <div><strong>Default tone</strong></div>
-              <select class="select" id="setTone"><option value="professional">Professional and friendly</option><option value="concise">Short and direct</option><option value="friendly">Warm and conversational</option></select>
-            </div>
-          </div>
-          <div><button class="btn btn-primary" type="submit">Save settings</button></div>
-          <div class="card">
-            <div class="card-head"><h2>Your data</h2></div>
-            <div class="set-row">
-              <div><strong>Reset progress</strong><span>Deletes your practice sessions, scores and streak. Saved phrases and settings stay. Browser storage is not encrypted, so don't store private information here.</span></div>
-              <button class="btn btn-secondary" type="button" id="resetProgress">Reset progress</button>
-            </div>
-          </div>
-        </form>
-      </section>
-
-    </main>
-  </div>
-</div>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<script type="module" src="js/main.js"></script>
+<!-- Only the icons are needed here, not the whole app -->
+<script type="module">
+  import { paintIcons } from './js/utils.js';
+  paintIcons();
+</script>
 </body>
 </html>
