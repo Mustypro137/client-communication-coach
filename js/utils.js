@@ -28,6 +28,7 @@ const ICONS = {
   question: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .9-1 1.6v.3M12 17h.01"/>',
   coach: '<path d="M12 3 3 8l9 5 9-5z"/><path d="M7 10.5v4.5c1.5 1.5 3 2 5 2s3.5-.5 5-2v-4.5"/>',
   edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  close: '<path d="M6 6l12 12M18 6 6 18"/>',
   grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>'
 };
 export function icon(name, size = 16) {

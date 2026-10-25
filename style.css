@@ -148,7 +148,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   font-family: var(--font-display); font-weight: 700; font-size: 13px;
   background: var(--accent-soft); color: var(--accent-strong);
 }
-.menu-btn { display: none; }
+/* Menu buttons are for phones only. ".icon-btn." makes these beat the .icon-btn rule further down. */
+.icon-btn.menu-btn, .icon-btn.menu-close { display: none; }
+.menu-close { margin-left: auto; } /* pushes it to the right of the logo */
 
 .content {
   width: 100%; max-width: 1180px; margin: 0 auto;
@@ -487,7 +489,7 @@ tr:last-child td { border-bottom: 0; }
     transform: translateX(-104%); transition: transform .22s ease; box-shadow: var(--shadow);
   }
   .sidebar.open { transform: none; }
-  .menu-btn { display: inline-grid; }
+  .icon-btn.menu-btn, .icon-btn.menu-close { display: inline-grid; }
   .topbar { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .content { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: var(--s-5) var(--s-7); }
   .topbar .chip.streak { display: none; }

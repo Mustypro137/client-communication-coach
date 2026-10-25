@@ -75,6 +75,7 @@ function closeMenu() {
 }
 $('#menuBtn').addEventListener('click', openMenu);
 $('#scrim').addEventListener('click', () => { closeMenu(); $('#menuBtn').focus(); });
+$('#menuClose').addEventListener('click', () => { closeMenu(); $('#menuBtn').focus(); });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && $('#sidebar').classList.contains('open')) { closeMenu(); $('#menuBtn').focus(); }
 });
