@@ -482,6 +482,7 @@ tr:last-child td { border-bottom: 0; }
   .set-row { grid-template-columns: minmax(0, 1fr); }
   .switch { justify-self: start; }
   .card { padding: var(--s-4); }
+  .topbar-crumb { display: none; } /* "Coach /" makes the top bar too wide on phones */
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }

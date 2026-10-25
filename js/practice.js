@@ -189,8 +189,10 @@ function analyzeReply(text) {
 
   // Professionalism notes
   const prof = [];
-  prof.push(hasGreeting ? { type: 'good', text: 'You opened with a greeting, so the reply feels warm.' } : { type: 'tip', text: 'Start with a greeting and the client\'s name, e.g. "Good morning, Mrs. Mensah".' });
-  if (!hasThanks) prof.push({ type: 'tip', text: 'Thank the client for contacting you. It sets a positive tone.' });
+  const firstName = s.client.split(' ')[0];                // "Adjoa Mensah" → "Adjoa"
+  const youWroteFirst = s.opening.some(l => l.from === 'you'); // e.g. the follow-up scenario
+  prof.push(hasGreeting ? { type: 'good', text: 'You opened with a greeting, so the reply feels warm.' } : { type: 'tip', text: `Start with a greeting and the client's name, e.g. "Good morning, ${firstName}".` });
+  if (!hasThanks) prof.push({ type: 'tip', text: youWroteFirst ? 'Thank the client for their time. It sets a positive tone.' : 'Thank the client for contacting you. It sets a positive tone.' });
   if (words < 15) prof.push({ type: 'tip', text: 'Your reply is very short. The client may feel you are in a hurry.' });
   if (words > 170) prof.push({ type: 'tip', text: 'Your reply is long for a chat. Try to keep it under 120 words.' });
   if (SLANG.test(text)) prof.push({ type: 'tip', text: 'Avoid chat slang with clients. Full words look more professional.' });
