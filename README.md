@@ -2,6 +2,8 @@
 
 A web app that helps freelance developers practise client conversations, improve their professional English, and draft replies for WhatsApp and LinkedIn.
 
+**Live demo:** https://mustypro137.github.io/client-communication-coach/
+
 > **Prototype:** the "AI" is simulated. Client replies are scripted, and the coach's feedback comes from simple, transparent rules (greeting, thanks, questions asked, common grammar mistakes). It does not understand every possible reply.
 
 ## Features
