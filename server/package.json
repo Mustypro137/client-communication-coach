@@ -1,0 +1,17 @@
+{
+  "name": "client-coach-server",
+  "private": true,
+  "type": "module",
+  "description": "Small server that calls Claude for the Client Communication Coach. The API key lives here as a secret, never in the browser.",
+  "scripts": {
+    "dev": "wrangler dev --port 8799",
+    "deploy": "wrangler deploy",
+    "test": "node test/server.test.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.152.0"
+  }
+}

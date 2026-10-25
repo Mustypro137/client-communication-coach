@@ -15,3 +15,7 @@ desktop.ini
 # Dependencies and logs (for later, if we add tools or a server)
 node_modules/
 *.log
+
+# Cloudflare Worker: local secrets and build files
+.dev.vars
+.wrangler/

@@ -1,6 +1,7 @@
 import { $, icon, escapeHTML, toast, copyText } from './utils.js';
 import { state } from './state.js';
 import { checkEnglish } from './english.js';
+import { aiReady, askAI } from './ai.js';
 
 /* =========================================================
    8. MESSAGE STUDIO — template-based drafts (no real AI)
@@ -139,15 +140,40 @@ export function renderDraft() {
   const count = () => { const w = area.value.trim().split(/\s+/).filter(Boolean).length; $('#wordCount').textContent = `${w} words · ${area.value.length} characters`; };
   count();
   area.addEventListener('input', () => { st.draft = area.value; count(); $('#englishResult').hidden = true; }); // old check results are out of date
-  // Check my English: the same simple rules as the coach (no full stop needed after a signature)
-  $('#checkDraft').onclick = () => {
-    const items = checkEnglish(area.value, { checkEnding: false, level: state.englishLevel }).map(f =>
+  // Check my English: Claude when AI is on (see ai.js), otherwise the coach's simple rules
+  $('#checkDraft').onclick = async () => {
+    const btn = $('#checkDraft');
+    const result = $('#englishResult');
+    let fixes = null;
+    let problem = ''; // why the AI could not be used, if it was tried
+    if (aiReady() && area.value.trim()) {
+      btn.disabled = true;
+      result.innerHTML = '<h3>English check</h3><p class="muted">Claude is checking your English…</p>';
+      result.hidden = false;
+      try {
+        fixes = (await askAI('/english', { text: area.value, level: state.englishLevel })).corrections;
+      } catch (err) {
+        problem = err.message;
+      }
+      btn.disabled = false;
+    }
+    const byAI = fixes !== null;
+    if (!byAI) fixes = checkEnglish(area.value, { checkEnding: false, level: state.englishLevel }); // no full stop needed after a signature
+
+    const items = fixes.map(f =>
       `<li class="tip">${icon('alert', 15)}<span>"${escapeHTML(f.wrong)}" → "${escapeHTML(f.right)}". ${escapeHTML(f.note)}</span></li>`);
     if (/\[[^\]]+\]/.test(area.value)) items.push(`<li class="tip">${icon('alert', 15)}<span>Replace the text in [brackets] before you send.</span></li>`);
-    const result = $('#englishResult');
-    result.innerHTML = `<h3>English check</h3><ul class="fb-list">${items.length
+    const none = byAI ? 'Claude found no mistakes. Read it once more before you send.' : 'No problems found by the simple rules. Read it once more before you send.';
+    // Always say honestly where the feedback came from
+    const source = byAI
+      ? '<span class="tag">Claude AI</span>'
+      : '<span class="tag" title="Made from simple rules, not real AI">Template-based</span>';
+    const footer = byAI
+      ? '<p class="muted small-note">Checked by Claude (Anthropic). Your text was sent to Anthropic for this check and is not saved by this app.</p>'
+      : problem ? `<p class="muted small-note">AI not available: ${escapeHTML(problem)} The simple rules were used instead.</p>` : '';
+    result.innerHTML = `<h3>English check ${source}</h3><ul class="fb-list">${items.length
       ? items.join('')
-      : `<li class="good">${icon('check', 15)}<span>No problems found by the simple rules. Read it once more before you send.</span></li>`}</ul>`;
+      : `<li class="good">${icon('check', 15)}<span>${none}</span></li>`}</ul>${footer}`;
     result.hidden = false;
   };
   $('#copyDraft').onclick = () => copyText(area.value, area);

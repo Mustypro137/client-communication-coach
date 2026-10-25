@@ -1,0 +1,10 @@
+# Cloudflare Worker settings. Secrets (API key, passcode) are NOT here:
+# set them with `npx wrangler secret put ANTHROPIC_API_KEY` and `npx wrangler secret put APP_PASSCODE`.
+name = "client-coach-ai"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# Websites allowed to call this server: the live site and local testing
+ALLOWED_ORIGINS = "https://mustypro137.github.io,http://localhost:8000"

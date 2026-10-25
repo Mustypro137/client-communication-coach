@@ -4,7 +4,9 @@ A web app that helps freelance developers practise client conversations, improve
 
 **Live demo:** https://mustypro137.github.io/client-communication-coach/ (landing page) · [open the app directly](https://mustypro137.github.io/client-communication-coach/app.html)
 
-> **Prototype:** the "AI" is simulated. Client replies are scripted, and the coach's feedback comes from simple, transparent rules (greeting, thanks, questions asked, common grammar mistakes). It does not understand every possible reply.
+> **Prototype:** for visitors, the "AI" is simulated. Client replies are scripted, and the coach's feedback comes from simple, transparent rules (greeting, thanks, questions asked, common grammar mistakes). It does not understand every possible reply.
+>
+> **AI beta (owner only):** with a passcode, Message Studio's English check uses Claude (by Anthropic) through a small secure server. See [server/README.md](server/README.md).
 
 ## Features
 
@@ -54,13 +56,16 @@ js/
   library.js      scenario library screen
   studio.js       Message Studio templates
   phrasebook.js   phrasebook screen
+  ai.js           talks to the AI server (no API key here)
+server/           small Cloudflare Worker that calls Claude; the API key is a secret there
 ```
 
 ## Privacy
 
-- No accounts, no backend, no tracking.
+- No accounts, no tracking. For visitors, nothing leaves the browser (the AI server is used only with the owner's passcode).
 - Practice progress, saved phrases and settings are stored in your browser's `localStorage`. This is **not** encrypted, so don't store sensitive information. You can reset your progress in Settings.
 - Pasted client messages are never saved.
+- With the AI beta on (owner only), the text you check is sent to Anthropic to be processed. The server does not log it, and the app does not save it.
 
 ## Built with
 
@@ -68,4 +73,4 @@ HTML, CSS and vanilla JavaScript. No frameworks or dependencies.
 
 ## Roadmap
 
-- Later: a real AI model through a small, secure server (API keys stay on the server, never in the browser).
+- AI for the coach and for Message Studio drafts, through the same server (the English check is done).
