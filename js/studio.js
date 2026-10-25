@@ -1,5 +1,6 @@
 import { $, icon, escapeHTML, toast, copyText } from './utils.js';
 import { state } from './state.js';
+import { checkEnglish } from './english.js';
 
 /* =========================================================
    8. MESSAGE STUDIO — template-based drafts (no real AI)
@@ -44,6 +45,19 @@ const DRAFTS = {
   }
 };
 
+// Key details a freelancer usually needs. If the client's message doesn't mention one, suggest asking.
+const CLARIFY = [
+  { ask: 'What is your budget range?', words: ['budget', '$', 'price range', 'afford', 'spend'] },
+  { ask: 'When do you need it to be ready?', words: ['deadline', 'by ', 'this month', 'next month', 'week', 'date', 'urgent', 'asap', 'launch', 'ready'] },
+  { ask: 'Which pages or features do you need?', words: ['page', 'feature', 'book', 'shop', 'gallery', 'form', 'price', 'menu', 'payment'] },
+  { ask: 'Do you already have a logo, photos and text?', words: ['logo', 'photo', 'picture', 'image', 'content', 'text'] }
+];
+function clarifyQuestions(msg, goal) {
+  if (!['inquiry', 'pricing', 'details'].includes(goal)) return null; // not needed when following up or declining
+  const t = msg.toLowerCase();
+  return CLARIFY.filter(c => !c.words.some(w => t.includes(w))).map(c => c.ask);
+}
+
 export function generateDraft() {
   const msg = $('#clientMsg').value.trim();
   const goal = $('#goalSel').value;
@@ -75,8 +89,9 @@ export function generateDraft() {
   reasons.push(platform === 'whatsapp'
     ? 'WhatsApp style: short paragraphs and no formal signature, easy to read on a phone.'
     : 'LinkedIn style: a proper greeting and a signature, like a short professional email.');
-  reasons.push({ friendly: 'Friendly tone: warm words, but still professional.', professional: 'Professional tone: calm and formal, no exclamation marks.', concise: 'Short and clear: only the key information, for busy clients.' }[tone]);
+  reasons.push({ friendly: 'Warm and conversational: friendly words, but still professional.', professional: 'Professional and friendly: polite and calm, no exclamation marks.', concise: 'Short and direct: only the key information, for busy clients.' }[tone]);
 
+  state.studio.clarify = clarifyQuestions(msg, goal);
   state.studio.draft = draft;
   state.studio.original = draft;
   state.studio.reasons = reasons;
@@ -92,9 +107,16 @@ export function renderDraft() {
     return;
   }
   const goalLabel = $('#goalSel').selectedOptions[0].textContent;
+  const clarifyHTML = st.clarify ? `
+    <div class="why">
+      <h3>Questions to clarify</h3>
+      <ul class="fb-list">${st.clarify.length
+        ? st.clarify.map(q => `<li class="ask">${icon('question', 15)}<span>${escapeHTML(q)}</span></li>`).join('')
+        : `<li class="good">${icon('check', 15)}<span>The client already gave the key details.</span></li>`}</ul>
+    </div>` : '';
   card.innerHTML = `
     <div class="card-head" style="margin:0"><h2>Suggested reply</h2>
-      <div class="draft-meta"><span class="tag">${st.meta.platform === 'whatsapp' ? 'WhatsApp' : 'LinkedIn'}</span><span class="tag tag-good">${goalLabel}</span></div>
+      <div class="draft-meta"><span class="tag">${st.meta.platform === 'whatsapp' ? 'WhatsApp' : 'LinkedIn'}</span><span class="tag tag-good">${goalLabel}</span><span class="tag" title="Made from templates and simple rules, not real AI">Template-based</span></div>
     </div>
     <div class="field">
       <label for="draftArea">Edit before you copy. Replace anything in [brackets].</label>
@@ -104,9 +126,11 @@ export function renderDraft() {
       <span class="mono muted" id="wordCount"></span>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn btn-ghost btn-sm" id="resetDraft">${icon('restart', 15)}Reset</button>
+        <button class="btn btn-secondary btn-sm" id="checkDraft">${icon('check', 15)}Check my English</button>
         <button class="btn btn-accent" id="copyDraft">${icon('copy', 15)}Copy reply</button>
       </div>
     </div>
+    <div class="why" id="englishResult" aria-live="polite" hidden></div>${clarifyHTML}
     <div class="why">
       <h3>Why this reply works</h3>
       <ul class="fb-list">${st.reasons.map(r => `<li class="good">${icon('check', 15)}<span>${escapeHTML(r)}</span></li>`).join('')}</ul>
@@ -114,7 +138,18 @@ export function renderDraft() {
   const area = $('#draftArea');
   const count = () => { const w = area.value.trim().split(/\s+/).filter(Boolean).length; $('#wordCount').textContent = `${w} words · ${area.value.length} characters`; };
   count();
-  area.addEventListener('input', () => { st.draft = area.value; count(); });
+  area.addEventListener('input', () => { st.draft = area.value; count(); $('#englishResult').hidden = true; }); // old check results are out of date
+  // Check my English: the same simple rules as the coach (no full stop needed after a signature)
+  $('#checkDraft').onclick = () => {
+    const items = checkEnglish(area.value, { checkEnding: false }).map(f =>
+      `<li class="tip">${icon('alert', 15)}<span>"${escapeHTML(f.wrong)}" → "${escapeHTML(f.right)}". ${escapeHTML(f.note)}</span></li>`);
+    if (/\[[^\]]+\]/.test(area.value)) items.push(`<li class="tip">${icon('alert', 15)}<span>Replace the text in [brackets] before you send.</span></li>`);
+    const result = $('#englishResult');
+    result.innerHTML = `<h3>English check</h3><ul class="fb-list">${items.length
+      ? items.join('')
+      : `<li class="good">${icon('check', 15)}<span>No problems found by the simple rules. Read it once more before you send.</span></li>`}</ul>`;
+    result.hidden = false;
+  };
   $('#copyDraft').onclick = () => copyText(area.value, area);
   $('#resetDraft').onclick = () => { st.draft = st.original; area.value = st.original; count(); toast('Draft reset'); };
 }
