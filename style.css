@@ -75,6 +75,8 @@ button { cursor: pointer; }
 .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
 .muted { color: var(--ink-2); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* The hidden attribute must always win, even over rules like .screen { display: grid } */
+[hidden] { display: none !important; }
 
 /* ---------- App shell ---------- */
 .app { display: grid; grid-template-columns: 252px minmax(0, 1fr); min-height: 100%; }
@@ -149,6 +151,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   padding-right: max(24px, env(safe-area-inset-right, 0px));
 }
 .screen { display: grid; gap: var(--s-6); }
+.screen > * { min-width: 0; } /* wide children (like the scenario picker) scroll inside, instead of stretching the page */
 .screen-head { display: grid; gap: var(--s-2); max-width: 680px; }
 .screen-head h1 { font-size: 26px; font-weight: 700; }
 .screen-head p { color: var(--ink-2); }
