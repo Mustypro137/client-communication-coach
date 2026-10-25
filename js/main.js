@@ -7,13 +7,14 @@ import { renderProgress, resetProgress } from './progress.js';
 import { renderGoal, renderDashboard } from './dashboard.js';
 import { renderPicker, selectScenario, startSession, renderCoach, endSession } from './practice.js';
 import { renderResults } from './results.js';
+import { renderLibrary } from './library.js';
 import { generateDraft, renderDraft, setPlatform } from './studio.js';
 import { loadSaved, renderPhrasebook } from './phrasebook.js';
 
 /* =========================================================
    4. NAVIGATION
    ========================================================= */
-const TITLES = { dashboard: 'Dashboard', practice: 'Practice with a Client', studio: 'Message Studio', phrasebook: 'Phrasebook', progress: 'Progress', preferences: 'Settings', results: 'Session results' };
+const TITLES = { dashboard: 'Dashboard', practice: 'Practice with a Client', library: 'Scenario library', studio: 'Message Studio', phrasebook: 'Phrasebook', progress: 'Progress', preferences: 'Settings', results: 'Session results' };
 
 function showScreen(name) {
   state.screen = name;
@@ -28,6 +29,7 @@ function showScreen(name) {
   if (name === 'dashboard') renderDashboard();
   if (name === 'phrasebook') renderPhrasebook();
   if (name === 'progress') renderProgress();
+  if (name === 'library') renderLibrary();
   if (name === 'results') { renderResults(); $('#resultsTitle').focus(); } // the End button is now disabled, so move keyboard focus here
 }
 

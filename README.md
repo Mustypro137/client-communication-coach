@@ -10,6 +10,7 @@ A web app that helps freelance developers practise client conversations, improve
 
 - **Dashboard:** daily goal, streak, your stats, scenarios with your latest scores, and a recommended next exercise.
 - **Practice with a Client:** seven realistic scenarios (new inquiry, discount request, late payment, extra scope, unrealistic deadline, complaint, follow-up after no reply). Chat with a simulated client, then get coaching on your English, tone, and the questions you forgot to ask. Try again as often as you like.
+- **Scenario library:** all scenarios as cards, with the skill each one trains and your last score. Filter by level, or by new and practised.
 - **Session results:** press End session to see your score (compared with last time), skill bars, the top 3 things to fix, and the recommended next scenario.
 - **Message Studio:** paste a client message, choose a goal and tone, and get an editable, template-based draft. It explains why the draft works, lists questions to clarify, and can check your edited English.
 - **Phrasebook:** professional phrases with plain-English meanings. Search, filter, copy and save your favourites.
@@ -36,7 +37,7 @@ No install or build step is needed.
 ## Project structure
 
 ```
-index.html        page structure (7 screens)
+index.html        page structure (8 screens)
 style.css         all styles; colours and spacing are CSS variables
 js/
   main.js         entry point: navigation, settings, start-up
@@ -48,6 +49,7 @@ js/
   dashboard.js    dashboard screen
   practice.js     practice chat and the simulated coach
   results.js      session results screen
+  library.js      scenario library screen
   studio.js       Message Studio templates
   phrasebook.js   phrasebook screen
 ```

@@ -17,6 +17,7 @@ export const state = {
   dailyGoal: 3,
   studio: { platform: 'whatsapp', draft: '', original: '', reasons: [] },
   pb: { query: '', cat: 'all' },
+  lib: { level: 'all', status: 'all' },  // Scenario library filters
   saved: new Set(),
   showExplanations: true,       // Settings: show grammar explanations in the coach
   englishLevel: 'intermediate'  // Settings: how simply grammar is explained (english.js)

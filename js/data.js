@@ -12,6 +12,7 @@ export const SCENARIOS = [
     role: 'Owner, Sweet Crumbs Bakery',
     avatarBg: '#F4E3CC',
     level: 1,
+    skill: 'Asking good questions',  // the main skill this scenario trains (Scenario library)
     objective: 'Understand what she needs and agree on a next step before you give a price.',
     opening: [
       'Good morning! I got your number from my cousin Kwame. He said you build websites.',
@@ -40,6 +41,7 @@ export const SCENARIOS = [
     role: 'Marketing lead, Northpoint Clinic',
     avatarBg: '#DCE7F5',
     level: 2,
+    skill: 'Protecting your price',
     objective: 'Protect your price. Offer a smaller scope or payment plan instead of a big discount.',
     opening: [
       'Hi, we reviewed your quote of $1,200 for the clinic website.',
@@ -66,6 +68,7 @@ export const SCENARIOS = [
     role: 'Founder, Atelier Lumière',
     avatarBg: '#EADFF0',
     level: 2,
+    skill: 'Asking for payment',
     objective: 'Stay polite and friendly, but get a clear payment date.',
     opening: [
       'Hi! Sorry, I know the invoice is late.',
@@ -91,6 +94,7 @@ export const SCENARIOS = [
     role: 'Operations manager, Swift Logistics',
     avatarBg: '#DDEDE4',
     level: 3,
+    skill: 'Saying no politely',
     objective: 'Say no to free extra work without damaging the relationship. Explain the cost and time.',
     opening: [
       'The dashboard looks great, well done!',
@@ -117,6 +121,7 @@ export const SCENARIOS = [
     role: 'Founder, Asante Events',
     avatarBg: '#F4E3CC',
     level: 2,
+    skill: 'Setting realistic expectations',
     objective: 'Be honest about what is possible. Offer a smaller first version or a realistic date.',
     opening: [
       "Hi! We're launching our event booking website this Saturday.",
@@ -143,6 +148,7 @@ export const SCENARIOS = [
     role: 'Owner, Bello Fashion House',
     avatarBg: '#EADFF0',
     level: 2,
+    skill: 'Calming an upset client',
     objective: 'Stay calm, apologise, find out the details, and give a clear time for the fix.',
     opening: [
       'The contact form on my website is not working!',
@@ -169,6 +175,7 @@ export const SCENARIOS = [
     role: 'Director, Dubois Consulting',
     avatarBg: '#DCE7F5',
     level: 1,
+    skill: 'Following up without pressure',
     objective: 'Remind him politely, without pressure, and make it easy for him to answer.',
     // This scenario starts with YOUR earlier message, then a note. You write the follow-up.
     opening: [

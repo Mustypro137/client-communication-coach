@@ -400,6 +400,19 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* ---------- Progress ---------- */
 .progress-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--s-5); align-items: start; }
+/* Scenario library */
+.lib-filters { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.library { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--s-4); }
+.lib-card { display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-5); }
+.lib-card h2 { font-size: 17px; font-weight: 700; }
+.lib-card p { font-size: 14px; color: var(--ink-2); }
+.lib-client { display: flex; align-items: center; gap: var(--s-3); }
+.lib-client .who { min-width: 0; }
+.lib-client .who strong { display: block; font-size: 14px; }
+.lib-client .who span { display: block; font-size: 12.5px; color: var(--ink-3); }
+.lib-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-3); }
+.lib-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); margin-top: auto; padding-top: var(--s-3); border-top: 1px solid var(--line); font-size: 13px; } /* auto: footers line up at the bottom */
+
 /* Session results */
 .results-sub { margin-top: var(--s-5); }
 #resultsTitle:focus { outline: none; } /* focused by code after "End session", not by the user */

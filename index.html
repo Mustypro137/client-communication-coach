@@ -29,6 +29,7 @@
       <div class="eyebrow nav-label">Learn</div>
       <button class="nav-item" data-nav="dashboard"><span data-icon="home"></span>Dashboard</button>
       <button class="nav-item" data-nav="practice"><span data-icon="chat"></span>Practice with a Client</button>
+      <button class="nav-item" data-nav="library"><span data-icon="grid"></span>Scenario library</button>
       <button class="nav-item" data-nav="studio"><span data-icon="pen"></span>Message Studio</button>
       <button class="nav-item" data-nav="phrasebook"><span data-icon="book"></span>Phrasebook</button>
       <div class="eyebrow nav-label" style="margin-top: 12px;">You</div>
@@ -96,7 +97,7 @@
         <div class="dash-grid">
           <div class="dash-col">
             <div class="card">
-              <div class="card-head"><h2>Recent scenarios</h2><button class="link-btn" data-nav="practice">See all</button></div>
+              <div class="card-head"><h2>Recent scenarios</h2><button class="link-btn" data-nav="library">See all</button></div>
               <ul class="scenario-list" id="recentList"></ul>
             </div>
           </div>
@@ -163,6 +164,20 @@
           <!-- Coaching column -->
           <aside class="card coach" id="coach" aria-live="polite"></aside>
         </div>
+      </section>
+
+      <!-- ===================== SCENARIO LIBRARY ===================== -->
+      <section class="screen" data-screen="library" hidden>
+        <div class="screen-head">
+          <h1>Scenario library</h1>
+          <p>Every practice conversation in one place. Pick one by level, or find the ones you haven't tried yet.</p>
+        </div>
+        <div class="lib-filters">
+          <div class="cats" id="libLevel" role="group" aria-label="Filter by level"></div>
+          <div class="cats" id="libStatus" role="group" aria-label="Filter by status"></div>
+        </div>
+        <p class="muted" id="libCount" aria-live="polite"></p>
+        <div class="library" id="libGrid"></div>
       </section>
 
       <!-- ===================== SESSION RESULTS (opens after "End session") ===================== -->
