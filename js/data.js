@@ -1,7 +1,7 @@
 /* All sample content. Edit this file to add scenarios or phrases. */
 
 /* =========================================================
-   2. SAMPLE DATA — scenarios, phrases, progress
+   2. SAMPLE DATA — scenarios and phrases
    ========================================================= */
 export const SCENARIOS = [
   {
@@ -30,8 +30,7 @@ export const SCENARIOS = [
       'My budget is not very big, maybe around $400. I would like the website before the end of next month, because we have a big promotion.',
       'That sounds good. What do you need from me to start?'
     ],
-    modelReply: "Good morning, Mrs. Mensah, and thank you for reaching out! I'd be happy to help Sweet Crumbs Bakery get online.\n\nBefore I give you a price, I'd like to understand what you need:\n1. Which pages would you like (cakes menu, gallery, about, contact)?\n2. Should customers pay online, or just send an order request?\n3. Do you already have a logo, photos and a domain name?\n4. When would you like the website to be ready, and do you have a budget in mind?\n\nOnce I have your answers, I'll send you a clear quote and timeline. Would a short call this week work for you?",
-    lastScore: 68, lastDate: 'Yesterday'
+    modelReply: "Good morning, Mrs. Mensah, and thank you for reaching out! I'd be happy to help Sweet Crumbs Bakery get online.\n\nBefore I give you a price, I'd like to understand what you need:\n1. Which pages would you like (cakes menu, gallery, about, contact)?\n2. Should customers pay online, or just send an order request?\n3. Do you already have a logo, photos and a domain name?\n4. When would you like the website to be ready, and do you have a budget in mind?\n\nOnce I have your answers, I'll send you a clear quote and timeline. Would a short call this week work for you?"
   },
   {
     id: 'discount',
@@ -57,8 +56,7 @@ export const SCENARIOS = [
       'Our maximum is around $900 this quarter. Could we pay in two parts?',
       "Okay, please send the updated proposal and we'll review it on Monday."
     ],
-    modelReply: "Hi Daniel, thank you for reviewing the quote, and for being open about your budget.\n\nI can't lower the price for the same work, but I can adjust the scope so it fits $800–900. For example, we could launch with the services page and appointment requests first, and add the blog later.\n\nI can also split the payment: 50% to start and 50% at launch.\n\nWhich features are most important for you at launch? I'll send an updated proposal today.",
-    lastScore: 61, lastDate: 'Thu'
+    modelReply: "Hi Daniel, thank you for reviewing the quote, and for being open about your budget.\n\nI can't lower the price for the same work, but I can adjust the scope so it fits $800–900. For example, we could launch with the services page and appointment requests first, and add the blog later.\n\nI can also split the payment: 50% to start and 50% at launch.\n\nWhich features are most important for you at launch? I'll send an updated proposal today."
   },
   {
     id: 'payment',
@@ -83,8 +81,7 @@ export const SCENARIOS = [
       'I can send it by bank transfer on Wednesday.',
       'Thank you for being patient with me!'
     ],
-    modelReply: "Hi Sophie, thank you for letting me know, I understand busy months!\n\nJust to confirm, this is invoice #0142 for $650, which was due on 15 October. Could you let me know which day you plan to send the payment? A bank transfer or mobile money both work for me.\n\nThanks again, and let me know if you need a copy of the invoice.",
-    lastScore: 82, lastDate: 'Tue'
+    modelReply: "Hi Sophie, thank you for letting me know, I understand busy months!\n\nJust to confirm, this is invoice #0142 for $650, which was due on 15 October. Could you let me know which day you plan to send the payment? A bank transfer or mobile money both work for me.\n\nThanks again, and let me know if you need a copy of the invoice."
   },
   {
     id: 'scope',
@@ -110,8 +107,7 @@ export const SCENARIOS = [
       'Friday is for a demo with our director. Maybe it can be a simple version first?',
       'Okay, send me the quote for that and we can decide today.'
     ],
-    modelReply: "Thank you, Ibrahim, I'm glad you like the dashboard!\n\nA mobile app is a new project, so it isn't included in our current agreement. Building it properly takes more than a few days.\n\nTo help you, I can suggest two options:\n1. A mobile-friendly version of the dashboard for Friday's demo, as a small extra.\n2. A full mobile app later, with its own quote and timeline.\n\nWhat do your team need to do on mobile first? I'll send a short quote today.",
-    lastScore: null, lastDate: 'New'
+    modelReply: "Thank you, Ibrahim, I'm glad you like the dashboard!\n\nA mobile app is a new project, so it isn't included in our current agreement. Building it properly takes more than a few days.\n\nTo help you, I can suggest two options:\n1. A mobile-friendly version of the dashboard for Friday's demo, as a small extra.\n2. A full mobile app later, with its own quote and timeline.\n\nWhat do your team need to do on mobile first? I'll send a short quote today."
   },
   {
     id: 'deadline',
@@ -137,8 +133,7 @@ export const SCENARIOS = [
       'The text and photos are ready. The date is fixed because we already printed flyers.',
       'Okay, a simple version on Friday and payments next week works for me. Please send the details.'
     ],
-    modelReply: "Hi Kofi, congratulations on the launch!\n\nI want to be honest: a full booking website with online payments can't be built and tested properly by Friday. Rushing payments is risky for you and your customers.\n\nWhat I can do:\n1. By Friday: a one-page site with the event details and a ticket reservation form.\n2. Next week: online payments, fully tested.\n\nIs your text and photos ready? If you send them today, I can start this afternoon. Because of the short timeline, there is a small rush fee, which I'll include in the quote.",
-    lastScore: null, lastDate: 'New'
+    modelReply: "Hi Kofi, congratulations on the launch!\n\nI want to be honest: a full booking website with online payments can't be built and tested properly by Friday. Rushing payments is risky for you and your customers.\n\nWhat I can do:\n1. By Friday: a one-page site with the event details and a ticket reservation form.\n2. Next week: online payments, fully tested.\n\nIs your text and photos ready? If you send them today, I can start this afternoon. Because of the short timeline, there is a small rush fee, which I'll include in the quote."
   },
   {
     id: 'complaint',
@@ -164,8 +159,7 @@ export const SCENARIOS = [
       'I think it started on Monday. I can send you a screenshot of what they see.',
       'Thank you for handling this quickly. Please tell me when it works again.'
     ],
-    modelReply: "Hi Amina, I'm very sorry about this. I understand that missed messages mean missed sales, so I'll treat it as urgent.\n\nTo find the problem quickly, could you tell me:\n1. Did it happen on a phone, a computer, or both?\n2. When did you first notice it?\n3. Could you send a screenshot of what customers see after they press Send?\n\nI'm checking the form now and will update you within two hours. In the meantime, I can add your WhatsApp number to the contact page so customers can still reach you.",
-    lastScore: null, lastDate: 'New'
+    modelReply: "Hi Amina, I'm very sorry about this. I understand that missed messages mean missed sales, so I'll treat it as urgent.\n\nTo find the problem quickly, could you tell me:\n1. Did it happen on a phone, a computer, or both?\n2. When did you first notice it?\n3. Could you send a screenshot of what customers see after they press Send?\n\nI'm checking the form now and will update you within two hours. In the meantime, I can add your WhatsApp number to the contact page so customers can still reach you."
   },
   {
     id: 'followup',
@@ -192,8 +186,7 @@ export const SCENARIOS = [
       'Could we start in two weeks instead of next week?',
       "Great, let's have a short call on Thursday to confirm everything."
     ],
-    modelReply: "Hi Marc, I hope your week is going well.\n\nI'm following up on the proposal I sent on Monday for your new website. Have you had a chance to look at it?\n\nI'm happy to answer any questions or adjust the plan if something doesn't fit. If it's easier, we could have a quick 10-minute call this week.\n\nIf now isn't the right time, no problem. I'm here when you're ready.",
-    lastScore: null, lastDate: 'New'
+    modelReply: "Hi Marc, I hope your week is going well.\n\nI'm following up on the proposal I sent on Monday for your new website. Have you had a chance to look at it?\n\nI'm happy to answer any questions or adjust the plan if something doesn't fit. If it's easier, we could have a quick 10-minute call this week.\n\nIf now isn't the right time, no problem. I'm here when you're ready."
   }
 ];
 
@@ -232,19 +225,4 @@ export const CATEGORIES = [
   { id: 'followups', label: 'Follow-ups' },
   { id: 'questions', label: 'Questions' },
   { id: 'saved', label: 'Saved' }
-];
-
-export const WEEK_MINUTES = [12, 18, 0, 22, 15, 9, 0]; // Sunday (today) starts at 0 and grows as you practise
-export const SKILLS = [
-  { name: 'Professional tone', score: 81 },
-  { name: 'Asking good questions', score: 72 },
-  { name: 'Clear English', score: 66 },
-  { name: 'Talking about price', score: 48 }
-];
-export const HISTORY = [
-  { date: '24 Oct', id: 'bakery', replies: 3, score: 68 },
-  { date: '22 Oct', id: 'discount', replies: 2, score: 61 },
-  { date: '20 Oct', id: 'payment', replies: 3, score: 82 },
-  { date: '18 Oct', id: 'bakery', replies: 4, score: 63 },
-  { date: '17 Oct', id: 'payment', replies: 2, score: 77 }
 ];

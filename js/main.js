@@ -1,9 +1,9 @@
 /* Entry point: navigation, progress, settings, and app start-up.
    index.html loads only this file; it imports the rest. */
 
-import { $, paintIcons, difficultyHTML, copyText, toast } from './utils.js';
-import { SCENARIOS, WEEK_MINUTES, SKILLS, HISTORY } from './data.js';
+import { $, paintIcons, copyText, toast } from './utils.js';
 import { state } from './state.js';
+import { renderProgress, resetProgress } from './progress.js';
 import { renderGoal, renderDashboard } from './dashboard.js';
 import { renderPicker, selectScenario, startSession, renderCoach } from './practice.js';
 import { generateDraft, renderDraft, setPlatform } from './studio.js';
@@ -49,25 +49,6 @@ document.addEventListener('click', (e) => {
 });
 
 /* =========================================================
-   10. PROGRESS
-   ========================================================= */
-function renderProgress() {
-  const max = 30;
-  $('#bars').innerHTML = WEEK_MINUTES.map((m, i) => `
-    <div class="bar ${i === 6 ? 'today' : ''} ${m === 0 ? 'zero' : ''}">
-      <b>${m}</b><span style="height:${Math.max(2, (m / max) * 100)}%"></span>
-    </div>`).join('');
-  $('#skills').innerHTML = SKILLS.map(s => `
-    <div class="skill"><div class="skill-top"><span>${s.name}</span><b>${s.score}</b></div>
-    <div class="meter"><span style="width:${s.score}%"></span></div></div>`).join('');
-  $('#history').innerHTML = HISTORY.map(h => {
-    const s = SCENARIOS.find(x => x.id === h.id);
-    const tagCls = h.score >= 80 ? 'tag-good' : h.score >= 60 ? '' : 'tag-warn';
-    return `<tr><td class="num">${h.date}</td><td>${s.title}</td><td><span class="difficulty">${difficultyHTML(s.level)}</span></td><td class="num">${h.replies}</td><td><span class="tag ${tagCls}">${h.score}</span></td></tr>`;
-  }).join('');
-}
-
-/* =========================================================
    11. SETTINGS
    ========================================================= */
 $('#setGoal').addEventListener('input', (e) => { $('#setGoalOut').textContent = `${e.target.value} session${e.target.value === '1' ? '' : 's'}`; });
@@ -84,6 +65,14 @@ $('#settingsForm').addEventListener('submit', (e) => {
   renderCoach();
   toast('Settings saved in this browser');
 });
+// Reset progress: ask first, because this cannot be undone
+$('#resetProgress').addEventListener('click', () => {
+  if (!confirm('Delete all your practice progress in this browser? This cannot be undone.')) return;
+  resetProgress();
+  renderGoal();
+  toast('Progress reset');
+});
+
 function loadSettings() {
   try {
     const s = JSON.parse(localStorage.getItem('ccc-settings') || 'null');

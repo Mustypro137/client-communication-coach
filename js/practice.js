@@ -1,7 +1,8 @@
 import { $, icon, escapeHTML, difficultyHTML, toast, copyText } from './utils.js';
-import { SCENARIOS, WEEK_MINUTES } from './data.js';
+import { SCENARIOS } from './data.js';
 import { state } from './state.js';
 import { renderGoal } from './dashboard.js';
+import { recordSession, dayKey } from './progress.js';
 
 /* =========================================================
    7. PRACTICE WITH A CLIENT
@@ -38,7 +39,8 @@ export function startSession() {
   state.feedback = null;
   state.ended = false;
   state.clientTyping = false;
-  state.countedThisSession = false;
+  state.sessionId = null;          // a new session is saved when you send your first reply
+  state.sessionStart = Date.now();
   state.clockMinutes = 9 * 60 + 38;
   // An opening line is usually client text. It can also be an object:
   // { from: 'you', text } for a message you "sent" earlier, or { from: 'note', text } for a grey divider.
@@ -110,12 +112,18 @@ function sendReply() {
 
   // Simulated coach: rule-based analysis of the reply (no real AI)
   state.feedback = analyzeReply(text);
-  if (!state.countedThisSession) {
-    state.countedThisSession = true;
-    state.sessionsToday++;
-    WEEK_MINUTES[6] += 6;
-    renderGoal();
-  }
+  // Save this session to your progress after every reply, so a refresh never loses it
+  if (!state.sessionId) state.sessionId = Date.now();
+  recordSession({
+    id: state.sessionId,
+    date: dayKey(),
+    scenarioId: state.scenarioId,
+    replies: state.replyCount,
+    score: state.feedback.score,
+    minutes: Math.max(1, Math.round((Date.now() - state.sessionStart) / 60000)),
+    skills: state.feedback.skills
+  });
+  renderGoal();
   renderCoach();
 
   // Simulated client: next scripted answer after a short "typing" pause
@@ -190,6 +198,8 @@ function analyzeReply(text) {
   const noApology = s.id === 'complaint' && !/\b(sorry|apologi[sz]e)\b/i.test(text);
   const blames = s.id === 'complaint' && /\b(your fault|you must have|you didn't|you did not|you broke)\b/i.test(text);
   const pushy = s.id === 'followup' && /(why (haven't|have not|didn't|did not) you|still waiting|\basap\b|\burgent)/i.test(text);
+  const warned = givesPriceEarly || agreesDiscount || freeWork || rushYes || noApology || blames || pushy;
+  const shouting = /!{2,}/.test(text) || /\b[A-Z]{4,}\b/.test(text);
 
   // English corrections
   const english = [];
@@ -214,7 +224,7 @@ function analyzeReply(text) {
   if (words < 15) prof.push({ type: 'tip', text: 'Your reply is very short. The client may feel you are in a hurry.' });
   if (words > 170) prof.push({ type: 'tip', text: 'Your reply is long for a chat. Try to keep it under 120 words.' });
   if (SLANG.test(text)) prof.push({ type: 'tip', text: 'Avoid chat slang with clients. Full words look more professional.' });
-  if (/!{2,}/.test(text) || /\b[A-Z]{4,}\b/.test(text)) prof.push({ type: 'tip', text: 'Avoid "!!!" and words in capital letters. They can feel like shouting.' });
+  if (shouting) prof.push({ type: 'tip', text: 'Avoid "!!!" and words in capital letters. They can feel like shouting.' });
   if (givesPriceEarly) prof.push({ type: 'tip', text: 'You gave a price before you understood the project. Ask questions first, then quote.' });
   if (agreesDiscount) prof.push({ type: 'tip', text: 'You accepted a 33% discount quickly. Offer a smaller scope instead, so your price stays fair.' });
   if (freeWork) prof.push({ type: 'tip', text: 'You agreed to new work without mentioning the cost. Extra work needs its own quote.' });
@@ -249,10 +259,18 @@ function analyzeReply(text) {
   score += hasNextStep ? 10 : 0;
   score += english.length === 0 ? 10 : -4 * english.length;
   score += words >= 25 && words <= 150 ? 6 : 0;
-  score -= (givesPriceEarly || agreesDiscount || freeWork || rushYes || noApology || blames || pushy) ? 12 : 0;
+  score -= warned ? 12 : 0;
   score = Math.max(20, Math.min(97, score));
 
-  return { score, good, english, prof, forgotten, model: s.modelReply };
+  // Skill scores (0–100) for the Progress screen
+  const skills = {
+    tone: Math.max(0, 100 - (hasGreeting ? 0 : 25) - (hasThanks ? 0 : 15) - (SLANG.test(text) ? 20 : 0) - (shouting ? 20 : 0) - (hasNextStep ? 0 : 15)),
+    questions: Math.round((asked / s.checks.length) * 100),
+    english: Math.max(0, 100 - 20 * english.length),
+    tricky: warned ? 40 : 100
+  };
+
+  return { score, good, english, prof, forgotten, model: s.modelReply, skills };
 }
 
 function scoreLabel(n) { return n >= 80 ? 'Strong reply' : n >= 60 ? 'Good start' : 'Needs work'; }

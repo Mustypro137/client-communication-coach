@@ -49,7 +49,7 @@
       <span class="topbar-crumb" aria-hidden="true">/</span>
       <span class="topbar-title" id="topTitle">Dashboard</span>
       <div class="topbar-right">
-        <span class="chip streak"><span data-icon="flame"></span>5-day streak</span>
+        <span class="chip streak"><span data-icon="flame"></span><span id="streakText">Start a streak</span></span>
         <span class="chip" id="goalChip">1 of 3 today</span>
         <div class="avatar" aria-label="Your profile">YO</div>
       </div>
@@ -61,7 +61,7 @@
       <section class="screen" data-screen="dashboard">
         <div class="hero">
           <div class="card hero-main">
-            <span class="eyebrow">Sunday practice</span>
+            <span class="eyebrow" id="heroDay">Today's practice</span>
             <h1>Become confident in every client conversation.</h1>
             <p>Practise real client situations, get clear feedback on your English and tone, then write messages you can send with confidence.</p>
             <div class="hero-actions">
@@ -86,8 +86,8 @@
         </div>
 
         <div class="stats">
-          <div class="card stat"><span class="eyebrow">Sessions this week</span><div class="stat-value" id="statSessions">6</div><p class="stat-note"><span class="up">+2</span> compared with last week</p></div>
-          <div class="card stat"><span class="eyebrow">Average reply score</span><div class="stat-value">74<small>/100</small></div><p class="stat-note"><span class="up">+6</span> since you started</p></div>
+          <div class="card stat"><span class="eyebrow">Sessions this week</span><div class="stat-value" id="statSessions">0</div><p class="stat-note">In the last 7 days</p></div>
+          <div class="card stat"><span class="eyebrow">Average reply score</span><div class="stat-value" id="statAvg">–</div><p class="stat-note" id="statAvgNote">Send a practice reply to get a score</p></div>
           <div class="card stat"><span class="eyebrow">Phrases saved</span><div class="stat-value" id="statSaved">0</div><p class="stat-note">Ready to reuse in real messages</p></div>
         </div>
 
@@ -101,9 +101,9 @@
           <div class="dash-col">
             <div class="card next-ex">
               <span class="eyebrow">Next recommended exercise</span>
-              <h3>Hold your price without losing the client</h3>
-              <p>Your last pricing replies scored lower than your other skills. Practise offering a smaller scope instead of a big discount.</p>
-              <button class="btn btn-sm" data-start="discount">Start exercise <span data-icon="arrow"></span></button>
+              <h3 id="nextTitle"></h3>
+              <p id="nextText"></p>
+              <button class="btn btn-sm" id="nextBtn" data-start="bakery">Start exercise <span data-icon="arrow"></span></button>
             </div>
             <div class="card">
               <div class="card-head"><h2>Useful phrases</h2><button class="link-btn" data-nav="phrasebook">Phrasebook</button></div>
@@ -233,11 +233,11 @@
       <section class="screen" data-screen="progress" hidden>
         <div class="screen-head">
           <h1>Progress</h1>
-          <p>Sample data showing how a learner's practice could look after two weeks.</p>
+          <p>Your practice in this browser. A session is saved each time you send a practice reply.</p>
         </div>
         <div class="progress-grid">
           <div class="card">
-            <div class="card-head"><h2>Practice minutes this week</h2><span class="mono muted">76 min total</span></div>
+            <div class="card-head"><h2>Practice minutes this week</h2><span class="mono muted" id="weekTotal">0 min total</span></div>
             <div class="bars" id="bars"></div>
             <div class="bar-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
           </div>
@@ -291,6 +291,13 @@
             </div>
           </div>
           <div><button class="btn btn-primary" type="submit">Save settings</button></div>
+          <div class="card">
+            <div class="card-head"><h2>Your data</h2></div>
+            <div class="set-row">
+              <div><strong>Reset progress</strong><span>Deletes your practice sessions, scores and streak. Saved phrases and settings stay. Browser storage is not encrypted, so don't store private information here.</span></div>
+              <button class="btn btn-secondary" type="button" id="resetProgress">Reset progress</button>
+            </div>
+          </div>
         </form>
       </section>
 
