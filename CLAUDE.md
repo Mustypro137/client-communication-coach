@@ -18,6 +18,7 @@ A web app that helps freelance developers practise client conversations, improve
   - `main.js` – navigation, settings and app start-up
 - `tests/` – automated tests for the logic (`english.js`, `coach.js`, `progress.js`). Run `npm test` in the project folder. Uses Node's built-in test runner, no packages.
 - `server/` – optional Cloudflare Worker that calls Claude. **Not deployed and not connected to the app** (the browser side was removed after commit b7af28a). The key would be a Wrangler secret, never in a file. Run `npm test` there (fake Claude, free).
+- Installable app (PWA): `manifest.webmanifest` (name, icons, colours), `sw.js` (service worker, network first: online files are always fresh, offline the saved copy is used), `icons/`, and `js/pwa.js` (registers `sw.js`, Install button on the landing page). **When you add a file, add it to `FILES` in `sw.js`**, or it won't work offline.
 - Modules don't load from `file://`. Run a local server (e.g. `python -m http.server`) and open http://localhost:8000 (landing page) or http://localhost:8000/app.html (the app).
 
 ## Rules
@@ -25,7 +26,7 @@ A web app that helps freelance developers practise client conversations, improve
 - Use the existing CSS variables. Do not hard-code new colours.
 - Keep code simple and commented. The owner is a self-taught developer and must be able to read every line.
 - The AI is simulated: `analyzeReply()` (coach.js), `generateDraft()` (Message Studio) and `checkEnglish()` (english.js) are simple rules. Label their results "Template-based" and never present them as real AI. If real AI is added later, it goes only through `server/`, falls back to the rules, and is labelled "Claude AI".
-- Never save pasted client messages. Only progress (`ccc-progress`), saved phrases (`ccc-saved`) and settings (`ccc-settings`) go in `localStorage`. The server must never log message text.
+- Never save pasted client messages. The service worker saves only the app's own files and fonts. Only progress (`ccc-progress`), saved phrases (`ccc-saved`) and settings (`ccc-settings`) go in `localStorage`. The server must never log message text.
 - Never put API keys in front-end code. A real AI must go through a small server.
 - Messages are never sent automatically to WhatsApp or LinkedIn. The user copies them.
 - Run `npm test` and test at desktop width and at 375px phone width after every change.

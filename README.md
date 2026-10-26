@@ -32,6 +32,13 @@ A web app that helps freelance developers practise client conversations, improve
 
 Messages are **never sent automatically**. You copy the reply and send it yourself.
 
+## Install it
+
+It is an installable web app (PWA): it opens full screen from your home screen, and works offline after your first visit.
+
+- **Android, Windows, Mac (Chrome or Edge):** press **Install the app** on the landing page, or use the install icon in the address bar.
+- **iPhone and iPad:** open the site in Safari, tap **Share**, then **Add to Home Screen**.
+
 ## Run it locally
 
 The app uses ES modules, so it must be opened through a local server (double-clicking the HTML files will not work).
@@ -62,6 +69,9 @@ The tests check the grammar rules, the coach's scoring and the progress calculat
 
 ```
 index.html        landing page for new visitors
+manifest.webmanifest  app name, icons and colours for installing
+sw.js             service worker: saves the app's files so it works offline
+icons/            app icons for the home screen
 app.html          the app: page structure (8 screens)
 style.css         all styles; colours and spacing are CSS variables
 js/
@@ -78,6 +88,7 @@ js/
   library.js      scenario library screen
   studio.js       Message Studio templates
   phrasebook.js   phrasebook screen
+  pwa.js          registers sw.js and shows the Install button
 server/           optional Cloudflare Worker that calls Claude (tested, not deployed or connected)
 tests/            automated tests for the app's logic (npm test)
 docs/screenshots/ images used in this README

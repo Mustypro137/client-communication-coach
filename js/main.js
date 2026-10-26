@@ -10,6 +10,7 @@ import { renderResults } from './results.js';
 import { renderLibrary } from './library.js';
 import { generateDraft, renderDraft, setPlatform } from './studio.js';
 import { loadSaved, renderPhrasebook } from './phrasebook.js';
+import './pwa.js'; // offline mode: registers the service worker (sw.js)
 
 /* =========================================================
    4. NAVIGATION
