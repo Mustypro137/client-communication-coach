@@ -11,7 +11,7 @@ A web app that helps freelance developers practise client conversations, improve
   - `utils.js` – icons, `$`, `escapeHTML`, toast, copy to clipboard
   - `data.js` – practice scenarios and phrases
   - `state.js` – the one shared `state` object
-  - `progress.js` – saves practice sessions (`localStorage` key `ccc-progress`), streak/week/average calculations, your common mistakes (only the short mistake and fix are saved, never reply text: see `mistakesToSave`), Progress screen
+  - `progress.js` – saves practice sessions (`localStorage` key `ccc-progress`), streak/week/average calculations, your common mistakes (only the short mistake and fix are saved, never reply text: see `mistakesToSave`), export/import as a file (`exportData`, `mergeImport`: every value from a file is checked; import adds, never deletes), Progress screen
   - `english.js` – grammar rules shared by the coach and Message Studio
   - `coach.js` – the simulated coach: `analyzeReply()` scores one reply (no screen code, so it can be tested)
   - `dashboard.js`, `practice.js`, `results.js`, `library.js`, `studio.js`, `phrasebook.js` – one file per screen

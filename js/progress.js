@@ -28,6 +28,68 @@ export function recordSession(session) {
   save();
 }
 export function resetProgress() { sessions = []; save(); }
+// Replace all sessions (used after importing a file; mergeImport has already checked them)
+export function replaceSessions(list) { sessions = list; save(); }
+
+/* ---------- Export and import (move your progress to another device) ---------- */
+const APP_ID = 'client-communication-coach';
+
+// The object that is saved as a .json file: your sessions and saved phrases (no settings, no messages)
+export function exportData(list, saved, today = new Date()) {
+  return { app: APP_ID, version: 1, exported: dayKey(today), sessions: list, saved: [...saved] };
+}
+
+// The file comes from outside the app, so every value is checked before it is used.
+const isScore = (n) => Number.isFinite(n) && n >= 0 && n <= 100;
+const isShortText = (t, max) => typeof t === 'string' && t.length > 0 && t.length <= max;
+
+// One session from the file -> a clean copy with only the fields we know, or null if it is damaged
+function cleanSession(s) {
+  if (!s || typeof s !== 'object') return null;
+  const ok = Number.isFinite(s.id)
+    && typeof s.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s.date)
+    && isShortText(s.scenarioId, 40)
+    && Number.isFinite(s.replies) && s.replies >= 0
+    && isScore(s.score)
+    && Number.isFinite(s.minutes) && s.minutes >= 0
+    && s.skills && Object.keys(SKILL_NAMES).every(key => isScore(s.skills[key]));
+  if (!ok) return null;
+  // Mistakes are optional (older sessions have none). Keep only the ones that look right.
+  const mistakes = Array.isArray(s.mistakes)
+    ? s.mistakes.filter(m => m && (RULE_NAMES[m.rule] || (isShortText(m.wrong, 60) && isShortText(m.right, 60))))
+        .map(m => m.rule ? { rule: m.rule } : { wrong: m.wrong, right: m.right })
+    : [];
+  const skills = {};
+  for (const key of Object.keys(SKILL_NAMES)) skills[key] = s.skills[key];
+  return { id: s.id, date: s.date, scenarioId: s.scenarioId, replies: s.replies, score: s.score, minutes: s.minutes, skills, mistakes };
+}
+
+// Adds a file's sessions and saved phrases to yours. Nothing of yours is deleted.
+// Returns { error } for a wrong file, otherwise { sessions, saved, added, addedPhrases, skipped }.
+export function mergeImport(list, saved, file) {
+  if (!file || file.app !== APP_ID || !Array.isArray(file.sessions)) {
+    return { error: "This isn't a Comm Coach progress file." };
+  }
+  const ids = new Set(list.map(s => s.id));
+  const merged = [...list];
+  let added = 0, skipped = 0;
+  for (const raw of file.sessions) {
+    const s = cleanSession(raw);
+    if (!s) { skipped++; continue; }
+    if (ids.has(s.id)) continue; // already here (e.g. the same file loaded twice)
+    ids.add(s.id);
+    merged.push(s);
+    added++;
+  }
+  merged.sort((a, b) => a.id - b.id); // oldest first, like sessions saved in this browser
+
+  const phrases = new Set(saved);
+  const before = phrases.size;
+  for (const t of Array.isArray(file.saved) ? file.saved : []) {
+    if (isShortText(t, 500)) phrases.add(t); else skipped++;
+  }
+  return { sessions: merged, saved: phrases, added, addedPhrases: phrases.size - before, skipped };
+}
 
 /* ---------- Dates ---------- */
 // A day as 'YYYY-MM-DD' in your own time zone

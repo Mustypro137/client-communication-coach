@@ -28,7 +28,7 @@ A web app that helps freelance developers practise client conversations, improve
 - **Message Studio:** paste a client message, choose a goal and tone, and get an editable, template-based draft. It explains why the draft works, lists questions to clarify, and can check your edited English.
 - **Phrasebook:** professional phrases with plain-English meanings. Search, filter, copy and save your favourites.
 - **Progress:** practice minutes this week, skill scores, your most common English mistakes (only the mistake is saved, never your reply) and session history, saved in your browser.
-- **Settings:** daily goal, defaults, your English level (beginner explanations use simpler words and an example; advanced ones are short and use grammar terms), and a reset button for your progress.
+- **Settings:** daily goal, defaults, your English level (beginner explanations use simpler words and an example; advanced ones are short and use grammar terms), a reset button for your progress, and **download / load your progress as a file** to move it to another device (sessions and saved phrases; loading adds, never deletes).
 
 Messages are **never sent automatically**. You copy the reply and send it yourself.
 
@@ -97,7 +97,7 @@ docs/screenshots/ images used in this README
 ## Privacy
 
 - No accounts, no tracking. Nothing you type leaves your browser.
-- Practice progress, saved phrases and settings are stored in your browser's `localStorage`. This is **not** encrypted, so don't store sensitive information. You can reset your progress in Settings.
+- Practice progress, saved phrases and settings are stored in your browser's `localStorage`. This is **not** encrypted, so don't store sensitive information. You can reset your progress in Settings. A downloaded progress file is a plain, unencrypted file too: keep it somewhere private.
 - Pasted client messages are never saved.
 
 ## Built with

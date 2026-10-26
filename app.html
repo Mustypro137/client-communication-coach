@@ -355,6 +355,17 @@
               <div><strong>Reset progress</strong><span id="resetHelp">Deletes your practice sessions, scores and streak. Saved phrases and settings stay. Browser storage is not encrypted, so don't store private information here.</span></div>
               <button class="btn btn-secondary" type="button" aria-describedby="resetHelp" id="resetProgress">Reset progress</button>
             </div>
+            <div class="set-row">
+              <div><strong>Download my progress</strong><span id="exportHelp">Saves your practice sessions and saved phrases as a file, so you can load them on another device. Your settings and messages are not included.</span></div>
+              <button class="btn btn-secondary" type="button" aria-describedby="exportHelp" id="exportBtn"><span data-icon="download"></span>Download file</button>
+            </div>
+            <div class="set-row">
+              <div><strong>Load progress from a file</strong><span id="importHelp">Adds the sessions and phrases from a downloaded file. Nothing in this browser is deleted.</span></div>
+              <button class="btn btn-secondary" type="button" aria-describedby="importHelp" id="importBtn"><span data-icon="upload"></span>Choose file</button>
+              <!-- The real file picker is hidden; the button above opens it (hidden items take no space in the row) -->
+              <label class="sr-only" for="importFile">Progress file</label>
+              <input type="file" id="importFile" accept=".json,application/json" hidden>
+            </div>
           </div>
         </form>
       </section>

@@ -2,7 +2,7 @@
 // Every calculation takes the list of sessions (and "today"), so no browser storage is needed.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { dayKey, streak, lastNDays, average, weekMinutes, latestFor, recommend, commonMistakes, mistakesToSave } from '../js/progress.js';
+import { dayKey, streak, lastNDays, average, weekMinutes, latestFor, recommend, commonMistakes, mistakesToSave, exportData, mergeImport } from '../js/progress.js';
 import { checkEnglish } from '../js/english.js';
 import { SCENARIOS } from '../js/data.js';
 
@@ -85,4 +85,64 @@ test('mistakesToSave keeps only the mistake, never the rest of your reply', () =
   const saved = mistakesToSave(checkEnglish(reply));
   assert.deepEqual(saved, [{ wrong: 'informations', right: 'information' }, { rule: 'capital' }, { rule: 'ending' }]);
   assert.ok(!JSON.stringify(saved).includes('bakery'), 'no reply text is saved');
+});
+
+/* ---------- Export and import ---------- */
+const skills = { tone: 70, questions: 60, english: 80, tricky: 100 };
+const session = (id, extra = {}) => ({ id, date: '2026-10-28', scenarioId: 'bakery', replies: 2, score: 70, minutes: 5, skills, mistakes: [], ...extra });
+// What JSON.stringify + JSON.parse do to the file (Sets become lists, etc.)
+const throughFile = (obj) => JSON.parse(JSON.stringify(obj));
+
+test('export, then import into an empty browser, gives back the same sessions and phrases', () => {
+  const file = throughFile(exportData([session(1), session(2)], new Set(['Thank you.']), today));
+  assert.equal(file.exported, '2026-10-28');
+  const r = mergeImport([], new Set(), file);
+  assert.deepEqual(r.sessions, [session(1), session(2)]);
+  assert.deepEqual([...r.saved], ['Thank you.']);
+  assert.equal(r.added, 2);
+  assert.equal(r.addedPhrases, 1);
+});
+
+test('importing the same file twice adds nothing the second time', () => {
+  const file = throughFile(exportData([session(1)], new Set(['Thank you.'])));
+  const first = mergeImport([], new Set(), file);
+  const second = mergeImport(first.sessions, first.saved, file);
+  assert.equal(second.added, 0);
+  assert.equal(second.addedPhrases, 0);
+  assert.equal(second.sessions.length, 1);
+});
+
+test('import keeps the sessions already here and sorts everything oldest first', () => {
+  const file = throughFile(exportData([session(1), session(3)], new Set()));
+  const r = mergeImport([session(2)], new Set(['Mine.']), file);
+  assert.deepEqual(r.sessions.map(s => s.id), [1, 2, 3]);
+  assert.ok(r.saved.has('Mine.'));
+});
+
+test('a file from somewhere else is refused', () => {
+  assert.ok(mergeImport([], new Set(), { sessions: [] }).error);
+  assert.ok(mergeImport([], new Set(), null).error);
+  assert.ok(mergeImport([], new Set(), { app: 'client-communication-coach', sessions: 'oops' }).error);
+});
+
+test('damaged sessions and phrases are skipped, the good ones still come in', () => {
+  const file = {
+    app: 'client-communication-coach', version: 1,
+    sessions: [session(1), session(2, { score: 500 }), session(3, { date: 'yesterday' }), session(4, { skills: {} }), 'hello'],
+    saved: ['Fine.', 42, 'x'.repeat(501)]
+  };
+  const r = mergeImport([], new Set(), file);
+  assert.deepEqual(r.sessions.map(s => s.id), [1]);
+  assert.deepEqual([...r.saved], ['Fine.']);
+  assert.equal(r.skipped, 6);
+});
+
+test('import keeps only known fields, and only mistakes that look right', () => {
+  const file = { app: 'client-communication-coach', sessions: [session(1, {
+    note: '<img src=x onerror=alert(1)>',
+    mistakes: [{ wrong: 'u', right: 'you' }, { rule: 'capital', wrong: 'hello Adjoa' }, { rule: 'nope' }, { wrong: 'x'.repeat(61), right: 'y' }]
+  })] };
+  const [s] = mergeImport([], new Set(), file).sessions;
+  assert.equal(s.note, undefined, 'unknown fields are dropped');
+  assert.deepEqual(s.mistakes, [{ wrong: 'u', right: 'you' }, { rule: 'capital' }]);
 });

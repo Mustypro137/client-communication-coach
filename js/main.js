@@ -1,15 +1,15 @@
 /* Entry point: navigation, progress, settings, and app start-up.
    app.html loads only this file; it imports the rest. */
 
-import { $, paintIcons, copyText, toast } from './utils.js';
+import { $, paintIcons, copyText, toast, announce } from './utils.js';
 import { state } from './state.js';
-import { renderProgress, resetProgress } from './progress.js';
+import { renderProgress, resetProgress, getSessions, replaceSessions, exportData, mergeImport, dayKey } from './progress.js';
 import { renderGoal, renderDashboard } from './dashboard.js';
 import { renderPicker, selectScenario, startSession, renderCoach, endSession } from './practice.js';
 import { renderResults } from './results.js';
 import { renderLibrary } from './library.js';
 import { generateDraft, renderDraft, setPlatform } from './studio.js';
-import { loadSaved, renderPhrasebook } from './phrasebook.js';
+import { loadSaved, storeSaved, renderPhrasebook } from './phrasebook.js';
 import './pwa.js'; // offline mode: registers the service worker (sw.js)
 
 /* =========================================================
@@ -113,6 +113,52 @@ $('#resetProgress').addEventListener('click', () => {
   resetProgress();
   renderGoal();
   toast('Progress reset');
+});
+
+// Download my progress: make a .json file in the browser and "click" a download link for it
+$('#exportBtn').addEventListener('click', () => {
+  const data = exportData(getSessions(), state.saved);
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `comm-coach-progress-${dayKey()}.json`;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(link.href), 1000); // free the file from memory (not straight away, or the download can fail)
+  toast('Progress file downloaded');
+});
+
+// Load progress from a file: the button opens the hidden file picker
+$('#importBtn').addEventListener('click', () => $('#importFile').click());
+$('#importFile').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  e.target.value = ''; // so choosing the same file again still works
+  if (!file) return;
+  const say = (msg) => { toast(msg); announce(msg); };
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`; // 1 session, 2 sessions
+  if (file.size > 1_000_000) return say('This file is too big to be a progress file.');
+
+  let result;
+  try {
+    result = mergeImport(getSessions(), state.saved, JSON.parse(await file.text()));
+  } catch (err) {
+    result = { error: "This isn't a Comm Coach progress file." }; // not valid JSON
+  }
+  if (result.error) return say(result.error);
+  if (!result.added && !result.addedPhrases) {
+    return say(`Nothing new to add: everything in this file is already here.${result.skipped ? ` ${plural(result.skipped, 'damaged item')} skipped.` : ''}`);
+  }
+  // e.g. "2 sessions and 1 saved phrase" (parts that are 0 are left out)
+  const what = [result.added && plural(result.added, 'session'), result.addedPhrases && plural(result.addedPhrases, 'saved phrase')]
+    .filter(Boolean).join(' and ');
+  const question = `Add ${what} to this browser?`
+    + (result.skipped ? ` (${plural(result.skipped, 'damaged item')} will be skipped.)` : '');
+  if (!confirm(question)) return;
+
+  replaceSessions(result.sessions);
+  state.saved = result.saved;
+  storeSaved();
+  renderGoal();
+  say(`Added ${what}.`);
 });
 
 function loadSettings() {

@@ -29,7 +29,9 @@ const ICONS = {
   coach: '<path d="M12 3 3 8l9 5 9-5z"/><path d="M7 10.5v4.5c1.5 1.5 3 2 5 2s3.5-.5 5-2v-4.5"/>',
   edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/>',
   close: '<path d="M6 6l12 12M18 6 6 18"/>',
-  grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>'
+  grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+  download: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+  upload: '<path d="M12 15V4M7 9l5-5 5 5M5 20h14"/>'
 };
 export function icon(name, size = 16) {
   const filled = name === 'star-filled';
