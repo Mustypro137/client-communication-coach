@@ -27,7 +27,7 @@ A web app that helps freelance developers practise client conversations, improve
 - **Session results:** press End session to see your score (compared with last time), skill bars, the top 3 things to fix, and the recommended next scenario.
 - **Message Studio:** paste a client message, choose a goal and tone, and get an editable, template-based draft. It explains why the draft works, lists questions to clarify, and can check your edited English.
 - **Phrasebook:** professional phrases with plain-English meanings. Search, filter, copy and save your favourites.
-- **Progress:** practice minutes this week, skill scores and session history, saved in your browser.
+- **Progress:** practice minutes this week, skill scores, your most common English mistakes (only the mistake is saved, never your reply) and session history, saved in your browser.
 - **Settings:** daily goal, defaults, your English level (beginner explanations use simpler words and an example; advanced ones are short and use grammar terms), and a reset button for your progress.
 
 Messages are **never sent automatically**. You copy the reply and send it yourself.
@@ -79,7 +79,7 @@ js/
   utils.js        shared helpers (icons, toast, copy to clipboard)
   data.js         practice scenarios and phrases
   state.js        the shared app state
-  progress.js     saved practice sessions, streak and Progress screen
+  progress.js     saved practice sessions, streak, common mistakes and Progress screen
   english.js      grammar rules shared by the coach and Message Studio
   dashboard.js    dashboard screen
   practice.js     practice chat screen

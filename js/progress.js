@@ -1,11 +1,13 @@
-import { $, difficultyHTML } from './utils.js';
+import { $, icon, escapeHTML, difficultyHTML } from './utils.js';
 import { SCENARIOS } from './data.js';
 
 /* =========================================================
    10. PROGRESS — your real practice, saved in this browser
    ========================================================= */
 // One saved session looks like:
-// { id, date: '2026-10-25', scenarioId, replies, score, minutes, skills: { tone, questions, english, tricky } }
+// { id, date: '2026-10-25', scenarioId, replies, score, minutes, skills: { tone, questions, english, tricky },
+//   mistakes: [{ wrong: 'informations', right: 'information' }, { rule: 'capital' }] }
+// (Sessions saved before "mistakes" was added don't have it.)
 const KEY = 'ccc-progress';
 let sessions = load();
 
@@ -84,6 +86,28 @@ export function recommend(list) {
   return scored.reduce((low, x) => (x.score < low.score ? x : low));
 }
 
+/* ---------- Your common mistakes ---------- */
+// The coach's corrections -> what is saved. Only the short mistake and its fix are kept,
+// never your reply. Capital letter and full stop: their text is a piece of your reply, so only the rule.
+export function mistakesToSave(english) {
+  return english.map(e => e.rule ? { rule: e.rule } : { wrong: e.wrong, right: e.right });
+}
+
+const RULE_NAMES = { capital: 'Capital letter at the start', ending: 'Full stop or ? at the end' };
+
+// Your n most frequent mistakes in all sessions: [{ wrong, right, label, count }], most frequent first
+export function commonMistakes(list, n = 5) {
+  const counts = new Map(); // one entry per kind of mistake
+  for (const s of list) {
+    for (const m of s.mistakes || []) {
+      const key = m.rule || `${m.wrong.toLowerCase()}→${m.right.toLowerCase()}`;
+      if (!counts.has(key)) counts.set(key, { wrong: m.wrong, right: m.right, label: RULE_NAMES[m.rule], count: 0 });
+      counts.get(key).count++;
+    }
+  }
+  return [...counts.values()].sort((a, b) => b.count - a.count).slice(0, n);
+}
+
 export const SKILL_NAMES = {
   tone: 'Professional tone',
   questions: 'Asking good questions',
@@ -109,6 +133,14 @@ export function renderProgress() {
         <div class="meter"><span style="width:${score}%"></span></div></div>`;
       }).join('')
     : '<p class="muted">Your skill scores appear after your first practice reply.</p>';
+
+  const mistakes = commonMistakes(sessions);
+  $('#mistakes').innerHTML = mistakes.length
+    ? mistakes.map(m => `<li class="mistake">${m.label
+        ? `<span>${m.label}</span>`
+        : `<span class="pair"><del>${escapeHTML(m.wrong)}</del>${icon('arrow', 13)}<ins>${escapeHTML(m.right)}</ins></span>`}
+        <b class="mono">×${m.count}</b></li>`).join('')
+    : '<li class="muted">No mistakes saved yet. They appear after you practise.</li>';
 
   const recent = sessions.slice(-10).reverse();
   $('#history').innerHTML = recent.length

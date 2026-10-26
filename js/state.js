@@ -14,6 +14,7 @@ export const state = {
   clockMinutes: 9 * 60 + 41,
   sessionId: null,     // set by your first reply; used to save this session to your progress
   sessionStart: 0,     // when the scenario was opened (ms), to count practice minutes
+  sessionMistakes: [], // the coach's English corrections in this session (see mistakesToSave in progress.js)
   dailyGoal: 3,
   studio: { platform: 'whatsapp', draft: '', original: '', reasons: [] },
   pb: { query: '', cat: 'all' },

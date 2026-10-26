@@ -2,7 +2,7 @@ import { $, icon, escapeHTML, difficultyHTML, toast, copyText, announce } from '
 import { SCENARIOS } from './data.js';
 import { state } from './state.js';
 import { renderGoal } from './dashboard.js';
-import { recordSession, dayKey } from './progress.js';
+import { recordSession, dayKey, mistakesToSave } from './progress.js';
 import { analyzeReply, scoreLabel } from './coach.js';
 
 /* =========================================================
@@ -42,6 +42,7 @@ export function startSession() {
   state.clientTyping = false;
   state.sessionId = null;          // a new session is saved when you send your first reply
   state.sessionStart = Date.now();
+  state.sessionMistakes = [];
   state.clockMinutes = 9 * 60 + 38;
   // An opening line is usually client text. It can also be an object:
   // { from: 'you', text } for a message you "sent" earlier, or { from: 'note', text } for a grey divider.
@@ -122,6 +123,7 @@ function sendReply() {
   });
   // Save this session to your progress after every reply, so a refresh never loses it
   if (!state.sessionId) state.sessionId = Date.now();
+  state.sessionMistakes.push(...mistakesToSave(state.feedback.english));
   recordSession({
     id: state.sessionId,
     date: dayKey(),
@@ -129,7 +131,8 @@ function sendReply() {
     replies: state.replyCount,
     score: state.feedback.score,
     minutes: Math.max(1, Math.round((Date.now() - state.sessionStart) / 60000)),
-    skills: state.feedback.skills
+    skills: state.feedback.skills,
+    mistakes: state.sessionMistakes
   });
   renderGoal();
   renderCoach();

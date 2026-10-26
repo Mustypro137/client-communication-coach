@@ -212,7 +212,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 }
 .segmented button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(36,59,83,.12), inset 0 0 0 1px var(--line); }
 
-.tag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-strong); }
+.tag { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-strong); }
 .tag-good { background: var(--good-soft); color: var(--good); }
 .tag-warn { background: var(--warn-soft); color: var(--warn); }
 
@@ -352,9 +352,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .fb-list li.tip svg { color: var(--warn); }
 .fb-list li.ask svg { color: var(--accent-strong); }
 .fix { background: var(--surface); border: 1px solid var(--coach-line); border-radius: var(--r-md); padding: var(--s-3); display: grid; gap: 4px; font-size: 14px; }
-.fix .pair { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.fix del { text-decoration: line-through; text-decoration-color: var(--warn); color: var(--ink-2); }
-.fix ins { text-decoration: none; font-weight: 600; color: var(--good); }
+.fix .pair, .mistake .pair { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.fix del, .mistake del { text-decoration: line-through; text-decoration-color: var(--warn); color: var(--ink-2); }
+.fix ins, .mistake ins { text-decoration: none; font-weight: 600; color: var(--good); }
 .fix small { color: var(--ink-2); font-size: 13px; }
 .model-reply { background: var(--surface); border: 1px solid var(--coach-line); border-radius: var(--r-md); padding: var(--s-4); font-size: 14px; white-space: pre-wrap; line-height: 1.6; }
 .coach-actions { display: flex; flex-wrap: wrap; gap: var(--s-2); }
@@ -432,6 +432,12 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .bar b { font-family: var(--font-mono); font-weight: 400; font-size: 11px; color: var(--ink-3); }
 .bar-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--s-3); text-align: center; font-size: 12px; color: var(--ink-3); margin-top: 6px; }
 .skills { display: grid; gap: var(--s-4); }
+/* Progress: My common mistakes */
+.small-note { font-size: 14px; margin-bottom: var(--s-3); }
+.mistakes { list-style: none; padding: 0; display: grid; gap: var(--s-1); }
+.mistake { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-2) 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.mistake:last-child { border-bottom: 0; }
+.mistake b { color: var(--ink-2); white-space: nowrap; }
 .skill { display: grid; gap: 6px; }
 .skill-top { display: flex; justify-content: space-between; font-size: 14px; }
 .skill-top b { font-family: var(--font-mono); font-weight: 500; font-size: 12.5px; color: var(--ink-2); }

@@ -2,7 +2,8 @@
 // Every calculation takes the list of sessions (and "today"), so no browser storage is needed.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { dayKey, streak, lastNDays, average, weekMinutes, latestFor, recommend } from '../js/progress.js';
+import { dayKey, streak, lastNDays, average, weekMinutes, latestFor, recommend, commonMistakes, mistakesToSave } from '../js/progress.js';
+import { checkEnglish } from '../js/english.js';
 import { SCENARIOS } from '../js/data.js';
 
 const today = new Date(2026, 9, 28); // Wednesday 28 October 2026 (months start at 0)
@@ -59,4 +60,29 @@ test('recommend picks an untried scenario first, then your lowest latest score',
   all.push(on('2026-10-21', { scenarioId: 'payment', score: 40 }));
   assert.equal(recommend(all).scenario.id, 'payment');
   assert.equal(recommend(all).score, 40);
+});
+
+test('commonMistakes counts the same mistake across sessions, most frequent first', () => {
+  const list = [
+    on('2026-10-27', { mistakes: [{ wrong: 'informations', right: 'information' }, { rule: 'capital' }] }),
+    on('2026-10-28', { mistakes: [{ wrong: 'Informations', right: 'Information' }, { wrong: 'u', right: 'you' }] })
+  ];
+  const top = commonMistakes(list);
+  assert.equal(top[0].wrong, 'informations');
+  assert.equal(top[0].count, 2, 'capital letters do not make it a different mistake');
+  assert.equal(top.length, 3);
+  assert.equal(top.find(m => m.label).label, 'Capital letter at the start');
+});
+
+test('commonMistakes returns at most n, and old sessions without mistakes still work', () => {
+  const many = ['a', 'b', 'c', 'd', 'e', 'f'].map(w => ({ wrong: w, right: w + 'x' }));
+  assert.equal(commonMistakes([on('2026-10-28', { mistakes: many })]).length, 5);
+  assert.deepEqual(commonMistakes([on('2026-10-28')]), []);
+});
+
+test('mistakesToSave keeps only the mistake, never the rest of your reply', () => {
+  const reply = 'thanks for the informations Adjoa see you at the bakery';
+  const saved = mistakesToSave(checkEnglish(reply));
+  assert.deepEqual(saved, [{ wrong: 'informations', right: 'information' }, { rule: 'capital' }, { rule: 'ending' }]);
+  assert.ok(!JSON.stringify(saved).includes('bakery'), 'no reply text is saved');
 });

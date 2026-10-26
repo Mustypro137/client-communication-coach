@@ -108,6 +108,8 @@ const ENDING_NOTE = {
 };
 
 // Returns up to 4 corrections: [{ wrong, right, note }]
+// The capital-letter and full-stop corrections also have rule: 'capital' or 'ending'
+// (their "wrong" is a piece of your reply, so progress.js saves only the rule, not the text)
 // checkEnding: also ask for a full stop at the end (off for drafts that end with a signature)
 // level: 'beginner' | 'intermediate' | 'advanced' – picks the explanation wording only
 export function checkEnglish(text, { checkEnding = true, level = 'intermediate' } = {}) {
@@ -120,10 +122,10 @@ export function checkEnglish(text, { checkEnding = true, level = 'intermediate' 
   });
   if (/^[a-z]/.test(text.trim()) && english.length < 4) {
     const first = text.trim().split(/\s+/)[0];
-    english.push({ wrong: first, right: first[0].toUpperCase() + first.slice(1), note: CAPITAL_NOTE[level] });
+    english.push({ wrong: first, right: first[0].toUpperCase() + first.slice(1), note: CAPITAL_NOTE[level], rule: 'capital' });
   }
   if (checkEnding && !/[.!?)]$/.test(text.trim()) && english.length < 4) {
-    english.push({ wrong: '…' + text.trim().slice(-14), right: '…' + text.trim().slice(-14) + '.', note: ENDING_NOTE[level] });
+    english.push({ wrong: '…' + text.trim().slice(-14), right: '…' + text.trim().slice(-14) + '.', note: ENDING_NOTE[level], rule: 'ending' });
   }
   return english;
 }
