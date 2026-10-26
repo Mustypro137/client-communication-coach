@@ -1,6 +1,6 @@
 /* =========================================================
    ENGLISH CHECK — simple grammar rules (no real AI)
-   Used by the coach (practice.js) and Message Studio (studio.js).
+   Used by the coach (coach.js) and Message Studio (studio.js).
    A real AI could replace checkEnglish() later.
    ========================================================= */
 

@@ -1,0 +1,9 @@
+{
+  "name": "client-communication-coach",
+  "private": true,
+  "description": "Only for the tests. The app itself needs no install or build step.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\""
+  }
+}

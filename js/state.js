@@ -20,6 +20,5 @@ export const state = {
   lib: { level: 'all', status: 'all' },  // Scenario library filters
   saved: new Set(),
   showExplanations: true,       // Settings: show grammar explanations in the coach
-  englishLevel: 'intermediate', // Settings: how simply grammar is explained (english.js)
-  aiPasscode: ''                // Settings: unlocks the AI server (ai.js); empty = simple rules only
+  englishLevel: 'intermediate'  // Settings: how simply grammar is explained (english.js)
 };

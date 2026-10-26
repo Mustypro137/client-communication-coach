@@ -13,19 +13,20 @@ A web app that helps freelance developers practise client conversations, improve
   - `state.js` – the one shared `state` object
   - `progress.js` – saves practice sessions (`localStorage` key `ccc-progress`), streak/week/average calculations, Progress screen
   - `english.js` – grammar rules shared by the coach and Message Studio
+  - `coach.js` – the simulated coach: `analyzeReply()` scores one reply (no screen code, so it can be tested)
   - `dashboard.js`, `practice.js`, `results.js`, `library.js`, `studio.js`, `phrasebook.js` – one file per screen
   - `main.js` – navigation, settings and app start-up
-  - `ai.js` – calls the AI server (`AI_URL`); no API key in the browser
-- `server/` – Cloudflare Worker that calls Claude. The key is a Wrangler secret, never in a file. Run `npm test` there (fake Claude, free).
+- `tests/` – automated tests for the logic (`english.js`, `coach.js`, `progress.js`). Run `npm test` in the project folder. Uses Node's built-in test runner, no packages.
+- `server/` – optional Cloudflare Worker that calls Claude. **Not deployed and not connected to the app** (the browser side was removed after commit b7af28a). The key would be a Wrangler secret, never in a file. Run `npm test` there (fake Claude, free).
 - Modules don't load from `file://`. Run a local server (e.g. `python -m http.server`) and open http://localhost:8000 (landing page) or http://localhost:8000/app.html (the app).
 
 ## Rules
 - Keep the "Clarity" design: ivory background #F7F7F4, navy text #243B53, blue accent #6487C4, sage green only for the coach panel.
 - Use the existing CSS variables. Do not hard-code new colours.
 - Keep code simple and commented. The owner is a self-taught developer and must be able to read every line.
-- The AI is simulated for visitors. Real AI (Claude) goes only through `server/` and `js/ai.js`, unlocked by the owner's passcode, and always falls back to the rules: `analyzeReply()` (coach), `generateDraft()` (Message Studio) and `checkEnglish()` (english.js) stay as the fallback. Label AI results "Claude AI" and rule results "Template-based".
-- Never save pasted client messages. Only progress (`ccc-progress`), saved phrases (`ccc-saved`) and settings (`ccc-settings`, including the AI passcode) go in `localStorage`. The server must never log message text.
+- The AI is simulated: `analyzeReply()` (coach.js), `generateDraft()` (Message Studio) and `checkEnglish()` (english.js) are simple rules. Label their results "Template-based" and never present them as real AI. If real AI is added later, it goes only through `server/`, falls back to the rules, and is labelled "Claude AI".
+- Never save pasted client messages. Only progress (`ccc-progress`), saved phrases (`ccc-saved`) and settings (`ccc-settings`) go in `localStorage`. The server must never log message text.
 - Never put API keys in front-end code. A real AI must go through a small server.
 - Messages are never sent automatically to WhatsApp or LinkedIn. The user copies them.
-- Test at desktop width and at 375px phone width after every change.
+- Run `npm test` and test at desktop width and at 375px phone width after every change.
 - Accessibility: text at least 4.5:1 contrast (in light and dark mode), buttons at least 44px tall on phones, a `<label>` for every form field. For screen-reader updates use `announce()` from utils.js, not `aria-live` on big areas that are re-drawn.

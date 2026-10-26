@@ -1,4 +1,6 @@
-# AI server
+# AI server (optional, not deployed)
+
+> **Status:** this server is a finished, tested example, but it is **not deployed and not connected to the app**. The live app uses only its simple rules. The browser side that called it (`js/ai.js`, the passcode in Settings, the AI English check in Message Studio) was removed after commit `b7af28a`. To turn it on again, restore those files from that commit, then follow the setup below.
 
 A small [Cloudflare Worker](https://developers.cloudflare.com/workers/) that lets the app use Claude (by Anthropic) **without putting the API key in the browser**.
 
@@ -29,7 +31,7 @@ npx wrangler secret put APP_PASSCODE       # choose a passcode for the app's Set
 npx wrangler deploy                        # prints your server address
 ```
 
-4. Copy the address it prints (like `https://client-coach-ai.<your-name>.workers.dev`) into `AI_URL` in `../js/ai.js`, then commit and push.
+4. Copy the address it prints (like `https://client-coach-ai.<your-name>.workers.dev`) into `AI_URL` in `../js/ai.js` (restored from `b7af28a`), then commit and push.
 5. In the live app, open **Settings → AI feedback**, type your passcode and press **Save settings**.
 
 ## Local testing
@@ -41,7 +43,7 @@ ANTHROPIC_API_KEY="your key"
 APP_PASSCODE="any passcode"
 ```
 
-Then run `npm run dev` here (server on http://127.0.0.1:8799) and `python -m http.server` in the project folder (app on http://localhost:8000). The app uses the local server automatically.
+Then run `npm run dev` here (server on http://127.0.0.1:8799). With the browser side restored, run `python -m http.server` in the project folder (app on http://localhost:8000) and the app uses the local server automatically.
 
 ## Useful commands
 

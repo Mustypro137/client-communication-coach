@@ -2,7 +2,7 @@ import { $, icon, escapeHTML, copyText } from './utils.js';
 import { SCENARIOS } from './data.js';
 import { state } from './state.js';
 import { getSessions, recommend, SKILL_NAMES } from './progress.js';
-import { scoreLabel } from './practice.js';
+import { scoreLabel } from './coach.js';
 
 /* =========================================================
    SESSION RESULTS — the summary you see after "End session"

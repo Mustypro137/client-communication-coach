@@ -4,9 +4,7 @@ A web app that helps freelance developers practise client conversations, improve
 
 **Live demo:** https://mustypro137.github.io/client-communication-coach/ (landing page) · [open the app directly](https://mustypro137.github.io/client-communication-coach/app.html)
 
-> **Prototype:** for visitors, the "AI" is simulated. Client replies are scripted, and the coach's feedback comes from simple, transparent rules (greeting, thanks, questions asked, common grammar mistakes). It does not understand every possible reply.
->
-> **AI beta (owner only):** with a passcode, Message Studio's English check uses Claude (by Anthropic) through a small secure server. See [server/README.md](server/README.md).
+> **Prototype:** the "AI" is simulated. Client replies are scripted, and the coach's feedback comes from simple, transparent rules (greeting, thanks, questions asked, common grammar mistakes). It does not understand every possible reply.
 
 ## Features
 
@@ -37,6 +35,16 @@ python -m http.server
 
 No install or build step is needed.
 
+## Run the tests
+
+With [Node.js](https://nodejs.org) 22 or newer:
+
+```bash
+npm test
+```
+
+The tests check the grammar rules, the coach's scoring and the progress calculations. They use Node's built-in test runner, so there is nothing to install.
+
 ## Project structure
 
 ```
@@ -51,21 +59,21 @@ js/
   progress.js     saved practice sessions, streak and Progress screen
   english.js      grammar rules shared by the coach and Message Studio
   dashboard.js    dashboard screen
-  practice.js     practice chat and the simulated coach
+  practice.js     practice chat screen
+  coach.js        the simulated coach (scores a reply)
   results.js      session results screen
   library.js      scenario library screen
   studio.js       Message Studio templates
   phrasebook.js   phrasebook screen
-  ai.js           talks to the AI server (no API key here)
-server/           small Cloudflare Worker that calls Claude; the API key is a secret there
+server/           optional Cloudflare Worker that calls Claude (tested, not deployed or connected)
+tests/            automated tests for the app's logic (npm test)
 ```
 
 ## Privacy
 
-- No accounts, no tracking. For visitors, nothing leaves the browser (the AI server is used only with the owner's passcode).
+- No accounts, no tracking. Nothing you type leaves your browser.
 - Practice progress, saved phrases and settings are stored in your browser's `localStorage`. This is **not** encrypted, so don't store sensitive information. You can reset your progress in Settings.
 - Pasted client messages are never saved.
-- With the AI beta on (owner only), the text you check is sent to Anthropic to be processed. The server does not log it, and the app does not save it.
 
 ## Built with
 
@@ -73,4 +81,4 @@ HTML, CSS and vanilla JavaScript. No frameworks or dependencies.
 
 ## Roadmap
 
-- AI for the coach and for Message Studio drafts, through the same server (the English check is done).
+- Optional real AI: `server/` already has a tested English check with Claude; it would need deploying and connecting again (see server/README.md).
