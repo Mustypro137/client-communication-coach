@@ -43,6 +43,35 @@ test('the complaint scenario expects an apology', () => {
   assert.ok(!sorry.prof.some(p => p.text.includes('saying sorry')));
 });
 
+test('asking for a review: offering a reward is a warning', () => {
+  const reward = coach('review', 'Hi Grace, thank you! Could you give me 5 stars on Google? I will give you a discount next time.');
+  const honest = coach('review', 'Hi Grace, thank you! Could you write a short, honest review on Google?');
+  assert.equal(reward.skills.tricky, 40);
+  assert.ok(reward.prof.some(p => p.text.includes('honest review')));
+  assert.equal(honest.skills.tricky, 100);
+});
+
+test('you need more time: "soon" without a date is a warning', () => {
+  const vague = coach('delay', 'Hi Tunde, sorry, the shop will be ready soon.');
+  const clear = coach('delay', 'Hi Tunde, sorry, payments will be ready soon, by next Wednesday.');
+  assert.ok(vague.prof.some(p => p.text.includes('clear new date')));
+  assert.equal(clear.skills.tricky, 100);
+});
+
+test('you need more time: blaming someone is a warning', () => {
+  const f = coach('delay', 'Hi Tunde, it is not my fault, the payment provider is slow. Next Wednesday.');
+  assert.ok(f.prof.some(p => p.text.includes('without blaming')));
+});
+
+test('saying no: a yes with no conditions, or rude words, is a warning', () => {
+  const yes = coach('decline', 'Hello Yaw, yes, no problem. I will start today.');
+  const rude = coach('decline', "Hello Yaw, $400 for that is ridiculous. I can't do it.");
+  const polite = coach('decline', "Hello Yaw, thank you. Sure, I understand, but I can't build that for $400. Instead, I can make a smaller first version.");
+  assert.ok(yes.prof.some(p => p.text.includes("can't deliver")));
+  assert.ok(rude.prof.some(p => p.text.includes('ridiculous')));
+  assert.equal(polite.skills.tricky, 100, '"sure" followed by a polite no is fine');
+});
+
 test('questions asked in earlier replies still count', () => {
   const earlier = 'What budget do you have in mind?';
   const latest = 'Thank you. When do you need it?';

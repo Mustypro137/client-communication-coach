@@ -22,7 +22,7 @@ A web app that helps freelance developers practise client conversations, improve
 ## Features
 
 - **Dashboard:** daily goal, streak, your stats, scenarios with your latest scores, and a recommended next exercise.
-- **Practice with a Client:** seven realistic scenarios (new inquiry, discount request, late payment, extra scope, unrealistic deadline, complaint, follow-up after no reply). Chat with a simulated client, then get coaching on your English, tone, and the questions you forgot to ask. Try again as often as you like.
+- **Practice with a Client:** ten realistic scenarios (new inquiry, discount request, late payment, extra scope, unrealistic deadline, complaint, follow-up after no reply, asking for a review, telling a client you need more time, saying no to a project). Chat with a simulated client, then get coaching on your English, tone, and the questions you forgot to ask. Try again as often as you like.
 - **Scenario library:** all scenarios as cards, with the skill each one trains and your last score. Filter by level, or by new and practised.
 - **Session results:** press End session to see your score (compared with last time), skill bars, the top 3 things to fix, and the recommended next scenario.
 - **Message Studio:** paste a client message, choose a goal and tone, and get an editable, template-based draft. It explains why the draft works, lists questions to clarify, and can check your edited English.
@@ -63,7 +63,7 @@ With [Node.js](https://nodejs.org) 22 or newer:
 npm test
 ```
 
-The tests check the grammar rules, the coach's scoring and the progress calculations. They use Node's built-in test runner, so there is nothing to install.
+The tests check the grammar rules, the coach's scoring, the progress calculations, every practice scenario (including that each suggested reply passes the coach's own rules) and the offline file list. They use Node's built-in test runner, so there is nothing to install.
 
 ## Project structure
 

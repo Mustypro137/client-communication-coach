@@ -69,6 +69,26 @@ export const ENGLISH_RULES = [
     beginner: 'Add "s" to "cost" after "it". Example: "It costs 500 dollars."',
     intermediate: 'Add "s": it costs.',
     advanced: 'Third-person singular present: "it costs".' } },
+  { re: /\brevert(?: back)? to (you|u)\b/i, fix: 'reply to you', note: {
+    beginner: 'Say "reply", not "revert". Example: "I will reply to you today."',
+    intermediate: 'In British and American English, "revert" means "go back to an old version", not "reply". Say "I will reply" or "I will get back to you".',
+    advanced: '"Revert" = return to a previous state; use "reply" or "get back to you".' } },
+  { re: /\bexplain me\b/i, fix: 'explain to me', note: {
+    beginner: 'Add "to". Example: "Can you explain to me what you need?"',
+    intermediate: 'Say "explain to me" or "explain it to me", not "explain me".',
+    advanced: '"Explain" takes "to" before the person: "explain something to someone".' } },
+  { re: /\b(have|has|had) a doubt\b/i, fix: '$1 a question', note: {
+    beginner: 'Say "I have a question". Example: "I have a question about the price."',
+    intermediate: 'In most English, "a doubt" means you don\'t believe something. To ask, say "I have a question".',
+    advanced: '"Doubt" = uncertainty or disbelief; use "question" for a query.' } },
+  { re: /\bon (tomorrow|yesterday|today)\b/i, fix: '$1', note: {
+    beginner: 'Do not use "on" before "tomorrow". Example: "We can talk tomorrow."',
+    intermediate: 'No "on" before "today", "tomorrow" or "yesterday".',
+    advanced: 'Deictic time adverbs take no preposition.' } },
+  { re: /\b(he|she|it) don't\b/i, fix: "$1 doesn't", note: {
+    beginner: 'After "he", "she" or "it", say "doesn\'t". Example: "It doesn\'t work."',
+    intermediate: 'Use "doesn\'t" with he, she and it.',
+    advanced: 'Third-person singular: "does not" / "doesn\'t".' } },
   { re: /\bdepend of\b/i, fix: 'depend on', note: {
     beginner: 'Say "depend on", not "depend of". Example: "The price depends on the pages."',
     intermediate: 'In English we say "depend on".',

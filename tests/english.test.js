@@ -23,6 +23,22 @@ test('a small "i" is corrected, but "i" inside a word is not', () => {
   assert.deepEqual(checkEnglish('This is a big idea.'), []);
 });
 
+test('new rules: common mistakes in client messages', () => {
+  const fix = (text) => checkEnglish(text)[0];
+  assert.equal(fix('I will revert back to you.').right, 'reply to you');
+  assert.equal(fix('Please explain me the plan.').right, 'explain to me');
+  assert.equal(fix('I have a doubt about the price.').right, 'have a question');
+  assert.equal(fix('We can talk on tomorrow.').right, 'tomorrow');
+  assert.equal(fix("It don't work.").right, "It doesn't"); // keeps the capital letter
+});
+
+test('correct uses of the same words are not flagged', () => {
+  assert.deepEqual(checkEnglish('Please revert the change I made.'), []); // "revert" = go back to an old version
+  assert.deepEqual(checkEnglish('Can you explain it to me?'), []);
+  assert.deepEqual(checkEnglish('There is no doubt that we can finish on Monday.'), []);
+  assert.deepEqual(checkEnglish("They don't need a blog."), []);
+});
+
 test('asks for a capital letter at the start and a full stop at the end', () => {
   const fixes = checkEnglish('hello Adjoa');
   assert.equal(fixes[0].right, 'Hello');

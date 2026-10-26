@@ -22,7 +22,12 @@ export function analyzeReply(text, { scenario: s, yourReplies, level = 'intermed
   const noApology = s.id === 'complaint' && !/\b(sorry|apologi[sz]e)\b/i.test(text);
   const blames = s.id === 'complaint' && /\b(your fault|you must have|you didn't|you did not|you broke)\b/i.test(text);
   const pushy = s.id === 'followup' && /(why (haven't|have not|didn't|did not) you|still waiting|\basap\b|\burgent)/i.test(text);
-  const warned = givesPriceEarly || agreesDiscount || freeWork || rushYes || noApology || blames || pushy;
+  const offersReward = s.id === 'review' && /\b(5|five)[ -]?stars?\b|\b(discount|gift|reward)\b/i.test(text);
+  const vagueDate = s.id === 'delay' && /\b(soon|asap|as soon as possible)\b/i.test(text) && !/\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday|tomorrow|next week|\d+)\b/i.test(text);
+  const blamesOthers = s.id === 'delay' && /\b(not my fault|their fault|your fault)\b/i.test(text);
+  const yesAnyway = s.id === 'decline' && /\b(yes|sure|ok|okay|no problem)\b/i.test(text) && !/(\bbut\b|can't|cannot|not possible|not realistic|instead|smaller)/i.test(text);
+  const rude = s.id === 'decline' && /\b(ridiculous|joke|crazy|stupid)\b/i.test(text);
+  const warned = givesPriceEarly || agreesDiscount || freeWork || rushYes || noApology || blames || pushy || offersReward || vagueDate || blamesOthers || yesAnyway || rude;
   const shouting = /!{2,}/.test(text) || /\b[A-Z]{4,}\b/.test(text);
 
   // English corrections (shared rules in english.js)
@@ -45,6 +50,11 @@ export function analyzeReply(text, { scenario: s, yourReplies, level = 'intermed
   if (noApology) prof.push({ type: 'tip', text: 'Start by saying sorry. The client is losing money, so show that you understand.' });
   if (blames) prof.push({ type: 'tip', text: 'Avoid blaming the client. Focus on finding and fixing the problem.' });
   if (pushy) prof.push({ type: 'tip', text: 'This sounds like pressure. Remind the client kindly and make it easy to reply.' });
+  if (offersReward) prof.push({ type: 'tip', text: 'Ask for an honest review. Offering a reward or asking for 5 stars breaks the rules of most review sites and hurts trust.' });
+  if (vagueDate) prof.push({ type: 'tip', text: 'Give a clear new date. "Soon" makes the client worry more.' });
+  if (blamesOthers) prof.push({ type: 'tip', text: 'Explain the reason without blaming anyone. Focus on the new plan.' });
+  if (yesAnyway) prof.push({ type: 'tip', text: "You said yes to a project you can't deliver for this price and time. A polite no protects you both." });
+  if (rude) prof.push({ type: 'tip', text: 'Avoid words like "ridiculous" or "crazy". Explain the facts politely.' });
   prof.push(hasNextStep ? { type: 'good', text: 'You suggested a clear next step.' } : { type: 'tip', text: 'End with a next step: a call, a quote, or a date.' });
 
   // Questions forgotten — checked across ALL your replies in this session

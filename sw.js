@@ -4,7 +4,7 @@
    offline, the saved copy is used. Only the app's own files and its fonts are saved,
    never anything you type.
    ========================================================= */
-const CACHE = 'ccc-v1'; // change the name to throw away all old copies
+const CACHE = 'ccc-v2'; // change the name to throw away all old copies
 
 // Saved on the first visit, so the app works offline straight away.
 // Add every new HTML, CSS, JS or icon file here.

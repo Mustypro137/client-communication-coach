@@ -194,6 +194,88 @@ export const SCENARIOS = [
       "Great, let's have a short call on Thursday to confirm everything."
     ],
     modelReply: "Hi Marc, I hope your week is going well.\n\nI'm following up on the proposal I sent on Monday for your new website. Have you had a chance to look at it?\n\nI'm happy to answer any questions or adjust the plan if something doesn't fit. If it's easier, we could have a quick 10-minute call this week.\n\nIf now isn't the right time, no problem. I'm here when you're ready."
+  },
+  {
+    id: 'review',
+    title: 'Asking a happy client for a review',
+    client: 'Grace Owusu',
+    initials: 'GO',
+    role: 'Owner, Golden Loaf Bakeries',
+    avatarBg: '#DDEDE4',
+    level: 1,
+    skill: 'Asking for reviews and referrals',
+    objective: 'Thank her, then ask for a short review and a referral, without pressure.',
+    opening: [
+      'Hi! The new website is perfect. We already got 12 cake orders this week!',
+      'Thank you so much for your hard work.'
+    ],
+    checks: [
+      { label: 'For a short review or testimonial', words: ['review', 'testimonial', 'feedback', 'recommendation', 'few words', 'sentences'] },
+      { label: 'Where to post it (Google, LinkedIn, your website)', words: ['google', 'linkedin', 'website', 'portfolio', 'facebook', 'post'] },
+      { label: 'If she knows someone else who needs a website', words: ['know anyone', 'someone', 'friend', 'other business', 'recommend me', 'refer'] },
+      { label: 'Offer help after the launch', words: ['support', 'help', 'update', 'changes', 'maintenance', 'anytime', 'any time'] }
+    ],
+    followUps: [
+      'Of course! I am happy to write something. Where should I post it?',
+      'Yes, my friend Esi has a catering business. She also needs a website. I will give her your number.',
+      'Done! I posted the review on Google. Thanks again!'
+    ],
+    modelReply: "Hi Grace, thank you so much! I'm really happy to hear about the 12 orders. Congratulations!\n\nIf you have a moment, would you write a short review about working with me? Two or three sentences on Google or LinkedIn would help me a lot. I can send you the link.\n\nAlso, if you know another business owner who needs a website, I would be grateful if you could recommend me.\n\nAnd of course, I'm here if you need any changes or help with the website. Thank you again!"
+  },
+  {
+    id: 'delay',
+    title: 'You need more time',
+    client: 'Tunde Bakare',
+    initials: 'TB',
+    role: 'Founder, Bakare Home Store',
+    avatarBg: '#F4E3CC',
+    level: 2,
+    skill: 'Sharing bad news early',
+    objective: "The launch is on Friday, but the payment provider hasn't approved his account yet. Tell him honestly, give a clear new date, and say what is ready now.",
+    opening: [
+      'Good morning! Just checking: are we still going live on Friday?',
+      'I already told my customers about the new online shop.'
+    ],
+    checks: [
+      { label: 'A short, honest reason', words: ['payment provider', 'approv', 'waiting for', 'verification', 'account'] },
+      { label: 'A clear new date', words: ['monday', 'tuesday', 'wednesday', 'thursday', 'next week', 'new date'] },
+      { label: 'What is ready now', words: ['ready', 'finished', 'done', 'already', 'tested'] },
+      { label: 'Something you can launch on Friday', words: ['first version', 'without payment', 'catalogue', 'catalog', 'show the products', 'whatsapp'] },
+      { label: 'If the new plan works for him', words: ['does that work', 'is that okay', 'is that ok', 'work for you', 'what do you think', 'would that'] }
+    ],
+    followUps: [
+      'Oh no. I already promised my customers. What can we do?',
+      'Okay, showing the products on Friday and taking payments next Wednesday is fine. Please keep me updated.',
+      'Thank you for telling me early. I appreciate your honesty.'
+    ],
+    modelReply: "Good morning Tunde, thank you for checking in. I'm sorry, but I have to change the plan.\n\nThe shop itself is ready and tested, but the payment provider hasn't approved your account yet, so customers can't pay online. Approval usually takes 3 to 5 working days.\n\nHere is what I suggest:\n1. Friday: we launch a first version that shows all your products, with orders by WhatsApp.\n2. Next Wednesday: online payments go live, once the account is approved.\n\nDoes that work for you? I'll send you an update every day until it's done."
+  },
+  {
+    id: 'decline',
+    title: 'Saying no to a project',
+    client: 'Yaw Mensah',
+    initials: 'YM',
+    role: 'Founder, Mensah Market',
+    avatarBg: '#DCE7F5',
+    level: 3,
+    skill: 'Saying no politely',
+    objective: "He wants an app like Jumia for $400 in two weeks. That isn't possible. Say no politely, explain why, and offer something you can do.",
+    opening: [
+      'Hello, I have a big idea: an online marketplace like Jumia, with an app for Android and iPhone.',
+      'My budget is $400 and I need it in two weeks. Can you do it?'
+    ],
+    checks: [
+      { label: 'A clear, polite no', words: ["can't", 'cannot', 'not able', 'unable', 'not possible', 'not realistic'] },
+      { label: 'Why: the time and budget it really needs', words: ['months', 'team', 'thousands', 'cost'] },
+      { label: 'A smaller first step you can offer', words: ['instead', 'smaller', 'first version', 'simple', 'landing page', 'start with', 'test the idea'] },
+      { label: 'Keep the door open for later', words: ['future', 'later', 'grow', 'again', 'in touch', 'next stage'] }
+    ],
+    followUps: [
+      'I see. I did not know it was so big. What can I get for $400?',
+      'A simple website to test the idea sounds good. How long would that take?',
+      'Okay, please send me a proposal for the simple version.'
+    ],
+    modelReply: "Hello Yaw, thank you for thinking of me. It's an exciting idea!\n\nI want to be honest with you: a marketplace like Jumia, with apps for Android and iPhone, is not possible for $400 in two weeks. Projects like that usually take a team several months and cost thousands of dollars.\n\nInstead, I can suggest a smaller first step: a simple website that explains the idea and lets sellers and buyers sign up. It would help you test the idea before you invest more. When it grows, we can plan the next stage together.\n\nWould you like me to send you a short proposal for this first version?"
   }
 ];
 
