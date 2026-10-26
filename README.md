@@ -6,6 +6,19 @@ A web app that helps freelance developers practise client conversations, improve
 
 > **Prototype:** the "AI" is simulated. Client replies are scripted, and the coach's feedback comes from simple, transparent rules (greeting, thanks, questions asked, common grammar mistakes). It does not understand every possible reply.
 
+## Screenshots
+
+![Practice with a Client: a chat with a simulated client and the coach's feedback beside it](docs/screenshots/practice-desktop.png)
+
+![Session results: score, the top 3 things to work on, and skill bars](docs/screenshots/results-desktop.png)
+
+<p>
+  <img src="docs/screenshots/coach-phone.png" width="260" alt="The coach's feedback on a phone">
+  <img src="docs/screenshots/dashboard-phone.png" width="260" alt="The dashboard on a phone">
+</p>
+
+![The landing page](docs/screenshots/landing-desktop.png)
+
 ## Features
 
 - **Dashboard:** daily goal, streak, your stats, scenarios with your latest scores, and a recommended next exercise.
@@ -67,6 +80,7 @@ js/
   phrasebook.js   phrasebook screen
 server/           optional Cloudflare Worker that calls Claude (tested, not deployed or connected)
 tests/            automated tests for the app's logic (npm test)
+docs/screenshots/ images used in this README
 ```
 
 ## Privacy
@@ -77,7 +91,16 @@ tests/            automated tests for the app's logic (npm test)
 
 ## Built with
 
-HTML, CSS and vanilla JavaScript. No frameworks or dependencies.
+HTML, CSS and vanilla JavaScript. No frameworks or dependencies. Tests use Node's built-in test runner.
+
+## What I learned
+
+- **Splitting code by job.** One file per screen, plus small files with no screen code (`english.js`, `coach.js`, `progress.js`). Those are the ones I can test without a browser.
+- **Testing.** A test that checks the landing page's example score caught that the page and the real coach could disagree.
+- **Accessibility.** Contrast of 4.5:1 in light and dark mode, 44px touch targets on phones, labels for every field, keyboard focus that stays inside the open phone menu, and screen-reader announcements.
+- **Responsive layout.** Checking every change at desktop width and at 375px.
+- **Privacy and honesty.** Only progress and settings are saved, pasted client messages never are, and rule-based feedback is labelled "Template-based", not presented as AI.
+- **Keeping secrets out of the browser.** `server/` shows how a real AI call would work: the API key stays on a small server, with a passcode, input limits and safe error messages.
 
 ## Roadmap
 
