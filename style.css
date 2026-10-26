@@ -438,6 +438,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .mistake { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-2) 0; border-bottom: 1px solid var(--line); font-size: 15px; }
 .mistake:last-child { border-bottom: 0; }
 .mistake b { color: var(--ink-2); white-space: nowrap; }
+.mistake-total { margin: var(--s-3) 0 0; }
+.mistake-total:empty { display: none; }
 .skill { display: grid; gap: 6px; }
 .skill-top { display: flex; justify-content: space-between; font-size: 14px; }
 .skill-top b { font-family: var(--font-mono); font-weight: 500; font-size: 12.5px; color: var(--ink-2); }

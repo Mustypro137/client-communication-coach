@@ -19,3 +19,6 @@ node_modules/
 # Cloudflare Worker: local secrets and build files
 .dev.vars
 .wrangler/
+
+# Browser test tool output (screenshots and page snapshots)
+.playwright-mcp/

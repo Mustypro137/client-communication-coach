@@ -142,6 +142,14 @@ export function renderProgress() {
         <b class="mono">×${m.count}</b></li>`).join('')
     : '<li class="muted">No mistakes saved yet. They appear after you practise.</li>';
 
+  // Total mistakes in all sessions (old sessions have no list, so count them as 0)
+  const total = sessions.reduce((sum, s) => sum + (s.mistakes || []).length, 0);
+  const withMistakes = sessions.filter(s => (s.mistakes || []).length > 0).length;
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`; // 1 mistake, 2 mistakes
+  $('#mistakeTotal').textContent = total > 0
+    ? `${plural(total, 'mistake')} found in ${plural(withMistakes, 'session')}.`
+    : '';
+
   const recent = sessions.slice(-10).reverse();
   $('#history').innerHTML = recent.length
     ? recent.map(h => {
