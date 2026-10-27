@@ -17,7 +17,7 @@ A web app that helps freelance developers practise client conversations, improve
   - `dashboard.js`, `practice.js`, `results.js`, `library.js`, `studio.js`, `phrasebook.js` – one file per screen
   - `main.js` – navigation, settings and app start-up
 - `tests/` – automated tests for the logic (`english.js`, `coach.js`, `progress.js`). Run `npm test` in the project folder. Uses Node's built-in test runner, no packages.
-- `server/` – optional Cloudflare Worker that calls Claude. **Not deployed and not connected to the app** (the browser side was removed after commit b7af28a). The key would be a Wrangler secret, never in a file. Run `npm test` there (fake Claude, free).
+- `server/` – optional Cloudflare Worker that calls Claude, deployed at https://client-coach-ai.mustypro137.workers.dev. The app talks to it through `js/ai.js` (live site → Worker, localhost → `npm run dev` on port 8799), only after a passcode is entered in Settings. The API key and passcode are Wrangler secrets, never in a file. Run `npm test` there (fake Claude, free).
 - Installable app (PWA): `manifest.webmanifest` (name, icons, colours), `sw.js` (service worker, network first: online files are always fresh, offline the saved copy is used), `icons/`, and `js/pwa.js` (registers `sw.js`, Install button on the landing page). **When you add a file, add it to `FILES` in `sw.js`**, or it won't work offline.
 - Modules don't load from `file://`. Run a local server (e.g. `python -m http.server`) and open http://localhost:8000 (landing page) or http://localhost:8000/app.html (the app).
 

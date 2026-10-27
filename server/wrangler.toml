@@ -4,6 +4,9 @@ name = "client-coach-ai"
 main = "src/index.js"
 compatibility_date = "2026-10-01"
 compatibility_flags = ["nodejs_compat"]
+# The app calls the server at its workers.dev address. No extra preview addresses.
+workers_dev = true
+preview_urls = false
 
 [vars]
 # Websites allowed to call this server: the live site and local testing

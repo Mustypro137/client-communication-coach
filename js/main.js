@@ -8,6 +8,7 @@ import { renderGoal, renderDashboard } from './dashboard.js';
 import { renderPicker, selectScenario, startSession, renderCoach, endSession } from './practice.js';
 import { renderResults } from './results.js';
 import { renderLibrary } from './library.js';
+import { AI_URL, aiReady } from './ai.js';
 import { generateDraft, renderDraft, setPlatform } from './studio.js';
 import { loadSaved, storeSaved, renderPhrasebook } from './phrasebook.js';
 import './pwa.js'; // offline mode: registers the service worker (sw.js)
@@ -99,9 +100,11 @@ $('#settingsForm').addEventListener('submit', (e) => {
   state.showExplanations = $('#setExplain').checked;
   state.englishLevel = $('#setLevel').value;
   setPlatform($('#setPlatform').value);
+  state.aiPasscode = $('#setPasscode').value.trim();
+  renderAiStatus();
   $('#toneSel').value = $('#setTone').value;
   try {
-    localStorage.setItem('ccc-settings', JSON.stringify({ goal: state.dailyGoal, explain: state.showExplanations, platform: $('#setPlatform').value, tone: $('#setTone').value, level: $('#setLevel').value }));
+    localStorage.setItem('ccc-settings', JSON.stringify({ goal: state.dailyGoal, explain: state.showExplanations, platform: $('#setPlatform').value, tone: $('#setTone').value, level: $('#setLevel').value, aiPasscode: state.aiPasscode }));
   } catch (err) { /* storage blocked */ }
   renderGoal();
   renderCoach();
@@ -161,6 +164,13 @@ $('#importFile').addEventListener('change', async (e) => {
   say(`Added ${what}.`);
 });
 
+// One line under the passcode that says whether the AI will be used
+function renderAiStatus() {
+  $('#aiStatus').textContent = !AI_URL
+    ? 'The AI server is not set up yet, so the app uses its simple rules.'
+    : aiReady() ? 'Passcode saved. Message Studio will use Claude to check your English, and tells you if the passcode is not accepted.' : 'AI is off. Enter your passcode and save to turn it on.';
+}
+
 function loadSettings() {
   try {
     const s = JSON.parse(localStorage.getItem('ccc-settings') || 'null');
@@ -174,6 +184,7 @@ function loadSettings() {
     if (['beginner', 'intermediate', 'advanced'].includes(level)) {
       state.englishLevel = level; $('#setLevel').value = level;
     }
+    if (typeof s.aiPasscode === 'string') { state.aiPasscode = s.aiPasscode; $('#setPasscode').value = s.aiPasscode; }
   } catch (err) { /* use defaults */ }
 }
 
@@ -183,6 +194,7 @@ function loadSettings() {
 paintIcons();
 loadSaved();
 loadSettings();
+renderAiStatus();
 renderPicker();
 startSession();
 renderDraft();
